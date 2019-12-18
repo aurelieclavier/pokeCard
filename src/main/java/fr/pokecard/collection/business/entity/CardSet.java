@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -14,8 +15,8 @@ import javax.persistence.Table;
  *
  */
 @Entity
-@Table(name = "CARD_SERIE")
-public class CardSerie implements Serializable {
+@Table(name = "CARD_SET")
+public class CardSet implements Serializable {
 
 	/**
 	 *
@@ -25,7 +26,7 @@ public class CardSerie implements Serializable {
 	/**
 	 * Default constructor
 	 */
-	public CardSerie() {
+	public CardSet() {
 	}
 
 	/**
@@ -43,7 +44,8 @@ public class CardSerie implements Serializable {
 	/**
 	 *
 	 */
-	private String brand;
+	@Column(name = "TOTAL_SET")
+	private Integer totalSet;
 
 	/**
 	 *
@@ -58,33 +60,28 @@ public class CardSerie implements Serializable {
 	private Integer yearEnd;
 
 	/**
-	 *
+	 * 1 set ne peut contenir que 1 même carte;
 	 */
-	@Column(name = "TOTAL_CARD_SERIE")
-	private Integer totalCardSerie;
+	@OneToOne(mappedBy = "cardSet")
+	private Card card;
 
 	/**
-	 *
+	 * 1 set ne peut avoir qu'une série de carte;
 	 */
-	private String symbol;
+	@OneToOne
+	@JoinColumn(name = "ID_CARD_SERIE")
+	private CardSerie cardSerie;
 
-	/**
-	 * 1 série de carte ne peut appartenir qu'à 1 set;
-	 */
-	@OneToOne(mappedBy = "cardSerie")
-	private CardSet cardSet;
-
-	public CardSerie(Integer id, String name, String brand, Integer yearStart, Integer yearEnd, Integer totalCardSerie,
-			String symbol, CardSet cardSet) {
+	public CardSet(Integer id, String name, Integer totalSet, Integer yearStart, Integer yearEnd, Card card,
+			CardSerie cardSerie) {
 		super();
 		this.id = id;
 		this.name = name;
-		this.brand = brand;
+		this.totalSet = totalSet;
 		this.yearStart = yearStart;
 		this.yearEnd = yearEnd;
-		this.totalCardSerie = totalCardSerie;
-		this.symbol = symbol;
-		this.cardSet = cardSet;
+		this.card = card;
+		this.cardSerie = cardSerie;
 	}
 
 	public Integer getId() {
@@ -103,12 +100,12 @@ public class CardSerie implements Serializable {
 		this.name = name;
 	}
 
-	public String getBrand() {
-		return this.brand;
+	public Integer getTotalSet() {
+		return this.totalSet;
 	}
 
-	public void setBrand(String brand) {
-		this.brand = brand;
+	public void setTotalSet(Integer totalSet) {
+		this.totalSet = totalSet;
 	}
 
 	public Integer getYearStart() {
@@ -127,28 +124,20 @@ public class CardSerie implements Serializable {
 		this.yearEnd = yearEnd;
 	}
 
-	public Integer getTotalCardSerie() {
-		return this.totalCardSerie;
+	public Card getCard() {
+		return this.card;
 	}
 
-	public void setTotalCardSerie(Integer totalCardSerie) {
-		this.totalCardSerie = totalCardSerie;
+	public void setCard(Card card) {
+		this.card = card;
 	}
 
-	public String getSymbol() {
-		return this.symbol;
+	public CardSerie getCardSerie() {
+		return this.cardSerie;
 	}
 
-	public void setSymbol(String symbol) {
-		this.symbol = symbol;
-	}
-
-	public CardSet getSet() {
-		return this.cardSet;
-	}
-
-	public void setSet(CardSet cardSet) {
-		this.cardSet = cardSet;
+	public void setCardSerie(CardSerie cardSerie) {
+		this.cardSerie = cardSerie;
 	}
 
 }

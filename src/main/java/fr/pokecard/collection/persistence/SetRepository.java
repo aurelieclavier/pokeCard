@@ -3,6 +3,6 @@ package fr.pokecard.collection.persistence;
 /**
  *
  */
-public interface ExtentionRepository {
+public interface SetRepository {
 
 }

@@ -3,12 +3,12 @@ package fr.pokecard.collection.presentation;
 /**
  *
  */
-public class CardSerieController {
+public class SetController {
 
 	/**
 	 * Default constructor
 	 */
-	public CardSerieController() {
+	public SetController() {
 	}
 
 }
