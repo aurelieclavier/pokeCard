@@ -3,12 +3,12 @@ package fr.pokecard.collection.persistence;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import fr.pokecard.collection.business.entity.Evolution;
+import fr.pokecard.collection.business.entity.CardSet;
 
 /**
  *
  */
 @Repository
-public interface EvolutionRepository extends JpaRepository<Evolution, Integer> {
+public interface CardSetRepository extends JpaRepository<CardSet, Integer> {
 
 }
