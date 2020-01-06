@@ -11,6 +11,8 @@ import fr.pokecard.collection.business.entity.Account;
 @Repository
 public interface AccountRepository extends JpaRepository<Account, Integer> {
 
-	Account findOneByUsername(final String username);
+	Account findOneByUserName(final String username);
+
+	Account findOneById(final Integer id);
 
 }

@@ -51,7 +51,7 @@ public class Account implements Serializable, UserDetails {
 	/**
 	 *
 	 */
-	private String username;
+	private String userName;
 
 	/**
 	 *
@@ -72,16 +72,35 @@ public class Account implements Serializable, UserDetails {
 	@JoinTable(name = "ACCOUNT_has_CARD")
 	private List<Card> cards;
 
-	public Account(Integer id, String email, String username, String password, Role role, List<Card> cards) {
+	/**
+	 * Constructors
+	 */
+	public Account(Integer id, String email, String userName, String password, Role role, List<Card> cards) {
 		super();
 		this.id = id;
 		this.email = email;
-		this.username = username;
+		this.userName = userName;
 		this.password = password;
 		this.role = role;
 		this.cards = cards;
 	}
 
+	public Account(String email, String userName, String password) {
+		super();
+		this.email = email;
+		this.userName = userName;
+		this.password = password;
+	}
+
+	public Account(String userName, String password) {
+		super();
+		this.userName = userName;
+		this.password = password;
+	}
+
+	/**
+	 * Getters and setters
+	 */
 	public Integer getId() {
 		return this.id;
 	}
@@ -100,11 +119,11 @@ public class Account implements Serializable, UserDetails {
 
 	@Override
 	public String getUsername() {
-		return this.username;
+		return this.userName;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setUsername(String userName) {
+		this.userName = userName;
 	}
 
 	@Override
