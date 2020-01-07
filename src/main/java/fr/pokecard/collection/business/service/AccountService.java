@@ -38,8 +38,27 @@ public class AccountService {
 		this.accountRepo.save(account);
 	}
 
-	public void save(Account account) {
-		this.accountRepo.save(account);
+	public void delete(Integer id) {
+		this.accountRepo.deleteById(id);
 	}
 
+	public void updateAccount(Integer id, Account account) {
+		Account updatedAccount = this.getOneById(id);
+		System.out.println("DEBUUUUUUUUGGGGGGGGGGG !!!!!!!!!!!!!!" + account);
+		if (updatedAccount != null) {
+			if (account.getPassword() != null) {
+				updatedAccount.setPassword(account.getPassword());
+			}
+			if (account.getUsername() != null) {
+				updatedAccount.setUsername(account.getUsername());
+			}
+			if (account.getEmail() != null) {
+				updatedAccount.setEmail(account.getEmail());
+			}
+			this.accountRepo.save(updatedAccount);
+		} else {
+			System.out.println("ACCOUNT NOT EXIST !");
+		}
+
+	}
 }
