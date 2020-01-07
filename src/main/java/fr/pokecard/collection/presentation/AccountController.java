@@ -13,13 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import fr.pokecard.collection.business.entity.Account;
 import fr.pokecard.collection.business.service.AccountService;
-import fr.pokecard.collection.persistence.AccountRepository;
 
 /**
  *
  */
 @RestController
-//@RequestMapping("/api/v1")
 public class AccountController {
 
 	/**
@@ -30,9 +28,6 @@ public class AccountController {
 
 	@Autowired
 	private AccountService accountService;
-
-	@Autowired
-	private AccountRepository accountRepository;
 
 	@GetMapping("/accounts")
 	List<Account> getAllAccount() {
