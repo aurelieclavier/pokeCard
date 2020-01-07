@@ -19,6 +19,7 @@ import fr.pokecard.collection.persistence.AccountRepository;
  *
  */
 @RestController
+//@RequestMapping("/api/v1")
 public class AccountController {
 
 	/**

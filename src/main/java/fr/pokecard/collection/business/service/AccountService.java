@@ -14,37 +14,36 @@ import fr.pokecard.collection.persistence.AccountRepository;
 public class AccountService {
 
 	@Autowired
-	private AccountRepository accountRepo;
+	private AccountRepository accountRepository;
 
 	@Autowired
 	private BCryptPasswordEncoder bCrypt;
 
 	public List<Account> getAll() {
-		return this.accountRepo.findAll();
+		return this.accountRepository.findAll();
 	}
 
 	public Account getOneByUserName(String userName) {
-		return this.accountRepo.findOneByUserName(userName);
+		return this.accountRepository.findOneByUserName(userName);
 	}
 
 	public Account getOneById(Integer id) {
-		return this.accountRepo.findOneById(id);
+		return this.accountRepository.findOneById(id);
 	}
 
 	public void create(String email, String userName, String password) {
 		final String hashedPassword = this.bCrypt.encode(password);
 		Account account = new Account(email, userName, hashedPassword);
 		account.setRole(new Role(1, "USER"));
-		this.accountRepo.save(account);
+		this.accountRepository.save(account);
 	}
 
 	public void delete(Integer id) {
-		this.accountRepo.deleteById(id);
+		this.accountRepository.deleteById(id);
 	}
 
 	public void updateAccount(Integer id, Account account) {
 		Account updatedAccount = this.getOneById(id);
-		System.out.println("DEBUUUUUUUUGGGGGGGGGGG !!!!!!!!!!!!!!" + account);
 		if (updatedAccount != null) {
 			if (account.getPassword() != null) {
 				updatedAccount.setPassword(account.getPassword());
@@ -55,7 +54,7 @@ public class AccountService {
 			if (account.getEmail() != null) {
 				updatedAccount.setEmail(account.getEmail());
 			}
-			this.accountRepo.save(updatedAccount);
+			this.accountRepository.save(updatedAccount);
 		} else {
 			System.out.println("ACCOUNT NOT EXIST !");
 		}
