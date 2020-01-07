@@ -7,10 +7,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import fr.pokecard.collection.business.entity.Account;
 import fr.pokecard.collection.business.service.AccountService;
+import fr.pokecard.collection.persistence.AccountRepository;
 
 /**
  *
@@ -27,6 +29,9 @@ public class AccountController {
 	@Autowired
 	private AccountService accountService;
 
+	@Autowired
+	private AccountRepository accountRepository;
+
 	@GetMapping("/accounts")
 	List<Account> getAllAccount() {
 		return this.accountService.getAll();
@@ -37,8 +42,9 @@ public class AccountController {
 		return this.accountService.getOneById(id);
 	}
 
-	@PostMapping(path = "/accounts/add", consumes = "application/json")
-	public void createAccount(@RequestBody Account account) {
+	@ResponseBody
+	@PostMapping("/account/add")
+	public void createAccount(@RequestBody final Account account) {
 		System.out.println("pouet !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		System.out.println("pouet !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		System.out.println("pouet !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
@@ -46,6 +52,7 @@ public class AccountController {
 		System.out.println("pouet !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		System.out.println("pouet !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		this.accountService.create(account.getEmail(), account.getUsername(), account.getPassword());
+
 	}
 
 }

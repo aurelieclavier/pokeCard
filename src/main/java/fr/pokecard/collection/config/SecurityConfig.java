@@ -17,10 +17,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests().expressionHandler(this.webExpressionHandler())
-				.antMatchers("/public/**", "/webjars/**", "/img/**", "/css/**", "/accounts/**").permitAll().anyRequest()
-				.authenticated().and().formLogin().permitAll().loginPage("/login").successHandler(new LoginHandler())
-				.and().logout().logoutSuccessUrl("/disconnected").permitAll();
+//		http.authorizeRequests().expressionHandler(this.webExpressionHandler())
+//				.antMatchers("/public/**", "/webjars/**", "/img/**", "/css/**", "/accounts/**", "/account/add/**")
+//				.permitAll();
+
+		http.authorizeRequests().antMatchers("/**").permitAll().and().cors().and().csrf().disable();
+
 	}
 
 	@Bean
