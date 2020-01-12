@@ -61,11 +61,11 @@ public class Type implements Serializable {
 	private List<Attak> attaks = new ArrayList<>();
 
 	/**
-	 * Récupération de la variable typesResistance définie dans Resistance.java; 0 à
-	 * n type peut être défini pour 0 à n resistance;
+	 * Récupération de la variable typesResistence définie dans Resistence.java; 0 à
+	 * n type peut être défini pour 0 à n resistence;
 	 */
-	@ManyToMany(mappedBy = "typesResistance")
-	private List<Resistance> resistances = new ArrayList<>();
+	@ManyToMany(mappedBy = "typesResistence")
+	private List<Resistence> resistences = new ArrayList<>();
 
 	/**
 	 * Récupération de la variable typesWeakness définie dans Weakness.java; 0 à n
@@ -75,14 +75,14 @@ public class Type implements Serializable {
 	private List<Weakness> weaknesses = new ArrayList<>();
 
 	public Type(Integer id, String name, String symbol, List<Pokemon> pokemons, List<Attak> attaks,
-			List<Resistance> resistances, List<Weakness> weaknesses) {
+			List<Resistence> resistences, List<Weakness> weaknesses) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.symbol = symbol;
 		this.pokemons = pokemons;
 		this.attaks = attaks;
-		this.resistances = resistances;
+		this.resistences = resistences;
 		this.weaknesses = weaknesses;
 	}
 
@@ -126,12 +126,12 @@ public class Type implements Serializable {
 		this.attaks = attaks;
 	}
 
-	public List<Resistance> getResistances() {
-		return this.resistances;
+	public List<Resistence> getResistences() {
+		return this.resistences;
 	}
 
-	public void setResistances(List<Resistance> resistances) {
-		this.resistances = resistances;
+	public void setResistences(List<Resistence> resistences) {
+		this.resistences = resistences;
 	}
 
 	public List<Weakness> getWeaknesses() {

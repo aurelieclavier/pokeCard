@@ -11,4 +11,6 @@ import fr.pokecard.collection.business.entity.Card;
 @Repository
 public interface CardRepository extends JpaRepository<Card, Integer> {
 
+	Card findOneById(final Integer id);
+
 }

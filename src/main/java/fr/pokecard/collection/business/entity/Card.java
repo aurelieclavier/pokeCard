@@ -114,15 +114,15 @@ public class Card implements Serializable {
 	private Retreat retreat;
 
 	/**
-	 * Création de la table de jointure CARD_has_RESISTANCE; 1 résistance peut être
+	 * Création de la table de jointure CARD_has_RESISTENCE; 1 résistance peut être
 	 * attribuée à plusieurs cartes;
 	 */
 	@ManyToMany
-	@JoinTable(name = "CARD_has_RESISTANCE")
-	private List<Resistance> resistances;
+	@JoinTable(name = "CARD_has_RESISTENCE")
+	private List<Resistence> resistences;
 
 	/**
-	 * Création de la table de jointure CARD_has_RESISTANCE; 1 résistance peut être
+	 * Création de la table de jointure CARD_has_RESISTENCE; 1 résistance peut être
 	 * attribuée à plusieurs cartes;
 	 */
 	@ManyToMany
@@ -131,7 +131,7 @@ public class Card implements Serializable {
 
 	public Card(Integer id, String name, Integer pv, String description, String image, Integer cardNumber,
 			String illustrator, List<Account> accounts, List<Pokemon> pokemons, Rarity ratity, CardType cardType,
-			CardSet cardSet, Retreat retreat, List<Resistance> resistances, List<Weakness> weaknesses) {
+			CardSet cardSet, Retreat retreat, List<Resistence> resistences, List<Weakness> weaknesses) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -146,7 +146,7 @@ public class Card implements Serializable {
 		this.cardType = cardType;
 		this.cardSet = cardSet;
 		this.retreat = retreat;
-		this.resistances = resistances;
+		this.resistences = resistences;
 		this.weaknesses = weaknesses;
 	}
 
@@ -254,12 +254,12 @@ public class Card implements Serializable {
 		this.retreat = retreat;
 	}
 
-	public List<Resistance> getResistances() {
-		return this.resistances;
+	public List<Resistence> getResistences() {
+		return this.resistences;
 	}
 
-	public void setResistances(List<Resistance> resistances) {
-		this.resistances = resistances;
+	public void setResistences(List<Resistence> resistences) {
+		this.resistences = resistences;
 	}
 
 	public List<Weakness> getWeaknesses() {

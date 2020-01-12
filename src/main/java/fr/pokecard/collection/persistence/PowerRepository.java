@@ -3,12 +3,9 @@ package fr.pokecard.collection.persistence;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import fr.pokecard.collection.business.entity.Resistence;
+import fr.pokecard.collection.business.entity.Power;
 
-/**
- *
- */
 @Repository
-public interface ResistenceRepository extends JpaRepository<Resistence, Integer> {
+public interface PowerRepository extends JpaRepository<Power, Integer> {
 
 }

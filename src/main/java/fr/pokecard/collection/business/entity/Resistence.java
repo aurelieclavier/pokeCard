@@ -15,8 +15,8 @@ import javax.persistence.Table;
  *
  */
 @Entity
-@Table(name = "RESISTANCE")
-public class Resistance implements Serializable {
+@Table(name = "RESISTENCE")
+public class Resistence implements Serializable {
 
 	/**
 	 *
@@ -26,7 +26,7 @@ public class Resistance implements Serializable {
 	/**
 	 * Default constructor
 	 */
-	public Resistance() {
+	public Resistence() {
 	}
 
 	/**
@@ -44,22 +44,22 @@ public class Resistance implements Serializable {
 	/**
 	 * Plusieurs carte peuvent avoir la même résistance;
 	 */
-	@ManyToMany(mappedBy = "resistances")
+	@ManyToMany(mappedBy = "resistences")
 	private List<Card> cards;
 
 	/**
 	 * 1 résitance peut avoir plusieurs type;
 	 */
 	@ManyToMany
-	@JoinTable(name = "RESITANCE_has_TYPE")
-	private List<Type> typesResistance;
+	@JoinTable(name = "RESISTENCE_has_TYPE")
+	private List<Type> typesResistence;
 
-	public Resistance(Integer id, Integer rate, List<Card> cards, List<Type> typesResistance) {
+	public Resistence(Integer id, Integer rate, List<Card> cards, List<Type> typesResistence) {
 		super();
 		this.id = id;
 		this.rate = rate;
 		this.cards = cards;
-		this.typesResistance = typesResistance;
+		this.typesResistence = typesResistence;
 	}
 
 	public Integer getId() {
@@ -86,12 +86,12 @@ public class Resistance implements Serializable {
 		this.cards = cards;
 	}
 
-	public List<Type> getTypesResistance() {
-		return this.typesResistance;
+	public List<Type> getTypesResistence() {
+		return this.typesResistence;
 	}
 
-	public void setTypesResistance(List<Type> typesResistance) {
-		this.typesResistance = typesResistance;
+	public void setTypesResistence(List<Type> typesResistence) {
+		this.typesResistence = typesResistence;
 	}
 
 }

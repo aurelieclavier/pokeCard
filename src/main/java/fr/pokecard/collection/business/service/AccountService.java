@@ -28,6 +28,10 @@ public class AccountService {
 	}
 
 	public Account getOneById(Integer id) {
+		Account idAccount = this.accountRepository.findOneById(id);
+		if (idAccount == null) {
+			System.out.println("Connexion to failed.");
+		}
 		return this.accountRepository.findOneById(id);
 	}
 
