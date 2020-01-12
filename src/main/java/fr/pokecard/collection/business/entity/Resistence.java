@@ -11,6 +11,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  *
  */
@@ -45,6 +47,7 @@ public class Resistence implements Serializable {
 	 * Plusieurs carte peuvent avoir la même résistance;
 	 */
 	@ManyToMany(mappedBy = "resistences")
+	@JsonIgnore
 	private List<Card> cards;
 
 	/**

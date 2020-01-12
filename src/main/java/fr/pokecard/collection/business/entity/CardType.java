@@ -1,13 +1,17 @@
 package fr.pokecard.collection.business.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  *
@@ -42,14 +46,15 @@ public class CardType implements Serializable {
 	/**
 	 *
 	 */
-	@OneToOne(mappedBy = "cardType")
-	private Card card;
+	@OneToMany(mappedBy = "cardType")
+	@JsonIgnore
+	private List<Card> cards = new ArrayList<>();
 
-	public CardType(Integer id, String name, Card card) {
+	public CardType(Integer id, String name, List<Card> cards) {
 		super();
 		this.id = id;
 		this.name = name;
-		this.card = card;
+		this.cards = cards;
 	}
 
 	public Integer getId() {
@@ -68,12 +73,12 @@ public class CardType implements Serializable {
 		this.name = name;
 	}
 
-	public Card getCard() {
-		return this.card;
+	public List<Card> getCards() {
+		return this.cards;
 	}
 
-	public void setCard(Card card) {
-		this.card = card;
+	public void setCards(List<Card> cards) {
+		this.cards = cards;
 	}
 
 }

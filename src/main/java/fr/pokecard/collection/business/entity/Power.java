@@ -1,14 +1,11 @@
 package fr.pokecard.collection.business.entity;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 /**
@@ -46,19 +43,11 @@ public class Power implements Serializable {
 	 */
 	private String content;
 
-	/**
-	 * Récupération de la variable powers défini dans Pokemon.java; Plusieurs power
-	 * pour 1 à n Pokemon;
-	 */
-	@ManyToMany(mappedBy = "powers")
-	private List<Pokemon> pokemons = new ArrayList<>();
-
-	public Power(Integer id, String title, String content, List<Pokemon> pokemons) {
+	public Power(Integer id, String title, String content) {
 		super();
 		this.id = id;
 		this.title = title;
 		this.content = content;
-		this.pokemons = pokemons;
 	}
 
 	public Integer getId() {
@@ -83,14 +72,6 @@ public class Power implements Serializable {
 
 	public void setContent(String content) {
 		this.content = content;
-	}
-
-	public List<Pokemon> getPokemons() {
-		return this.pokemons;
-	}
-
-	public void setPokemons(List<Pokemon> pokemons) {
-		this.pokemons = pokemons;
 	}
 
 }

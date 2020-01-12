@@ -9,11 +9,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  *
@@ -76,6 +77,7 @@ public class Card implements Serializable {
 	 * deux tables;
 	 */
 	@ManyToMany(mappedBy = "cards")
+	@JsonIgnore
 	private List<Account> accounts = new ArrayList<>();
 
 	/**
@@ -86,31 +88,34 @@ public class Card implements Serializable {
 	private List<Pokemon> pokemons;
 
 	/**
+	 * Création de la table CARD_has_ATTACK; Une carte peut avoir de 0 à n attaque;
+	 */
+	@ManyToMany
+	@JoinTable(name = "CARD_has_ATTACK")
+	private List<Attack> attacks;
+
+	/**
 	 * Jointure de la table Rarity; 1 carte ne peut avoir que 1 rarity;
 	 */
-	@OneToOne
-	@JoinColumn(name = "ID_RARITY")
-	private Rarity ratity;
+	@ManyToOne
+	private Rarity rarity;
 
 	/**
 	 * Jointure de la table CardType; 1 carte ne peut avoir que 1 type;
 	 */
-	@OneToOne
-	@JoinColumn(name = "ID_CARD_TYPE")
+	@ManyToOne
 	private CardType cardType;
 
 	/**
 	 * Jointure de la table Set; 1 carte ne peut être présente que dans 1 set;
 	 */
-	@OneToOne
-	@JoinColumn(name = "ID_CARD_SET")
+	@ManyToOne
 	private CardSet cardSet;
 
 	/**
 	 * Jointure de la table Retreat; 1 carte ne peut recevoir que 1 retraite;
 	 */
-	@OneToOne
-	@JoinColumn(name = "ID_RETREAT")
+	@ManyToOne
 	private Retreat retreat;
 
 	/**
@@ -119,6 +124,7 @@ public class Card implements Serializable {
 	 */
 	@ManyToMany
 	@JoinTable(name = "CARD_has_RESISTENCE")
+	@JsonIgnore
 	private List<Resistence> resistences;
 
 	/**
@@ -127,11 +133,13 @@ public class Card implements Serializable {
 	 */
 	@ManyToMany
 	@JoinTable(name = "CARD_has_WEAKNESS")
+	@JsonIgnore
 	private List<Weakness> weaknesses;
 
 	public Card(Integer id, String name, Integer pv, String description, String image, Integer cardNumber,
-			String illustrator, List<Account> accounts, List<Pokemon> pokemons, Rarity ratity, CardType cardType,
-			CardSet cardSet, Retreat retreat, List<Resistence> resistences, List<Weakness> weaknesses) {
+			String illustrator, List<Account> accounts, List<Pokemon> pokemons, Rarity rarity, CardType cardType,
+			CardSet cardSet, Retreat retreat, List<Attack> attacks, List<Resistence> resistences,
+			List<Weakness> weaknesses) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -142,12 +150,13 @@ public class Card implements Serializable {
 		this.illustrator = illustrator;
 		this.accounts = accounts;
 		this.pokemons = pokemons;
-		this.ratity = ratity;
+		this.rarity = rarity;
 		this.cardType = cardType;
 		this.cardSet = cardSet;
 		this.retreat = retreat;
 		this.resistences = resistences;
 		this.weaknesses = weaknesses;
+		this.attacks = attacks;
 	}
 
 	public Integer getId() {
@@ -222,12 +231,12 @@ public class Card implements Serializable {
 		this.pokemons = pokemons;
 	}
 
-	public Rarity getRatity() {
-		return this.ratity;
+	public Rarity getRarity() {
+		return this.rarity;
 	}
 
-	public void setRatity(Rarity ratity) {
-		this.ratity = ratity;
+	public void setRarity(Rarity rarity) {
+		this.rarity = rarity;
 	}
 
 	public CardType getCardType() {
@@ -268,6 +277,14 @@ public class Card implements Serializable {
 
 	public void setWeaknesses(List<Weakness> weaknesses) {
 		this.weaknesses = weaknesses;
+	}
+
+	public List<Attack> getAttacks() {
+		return this.attacks;
+	}
+
+	public void setAttacks(List<Attack> attacks) {
+		this.attacks = attacks;
 	}
 
 }

@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  *
  */
@@ -47,18 +49,12 @@ public class Type implements Serializable {
 	private String symbol;
 
 	/**
-	 * Récupération de la variable défini dans Pokemon.java; 1 à n type peut être
-	 * attribué à 0 ou n Pokémon;
-	 */
-	@ManyToMany(mappedBy = "typesPokemon")
-	private List<Pokemon> pokemons = new ArrayList<>();
-
-	/**
-	 * Récupération de la variable définie dans Attak.java; 0 à n type peut être
+	 * Récupération de la variable définie dans Attack.java; 0 à n type peut être
 	 * défini pour 0 à n attaque;
 	 */
-	@ManyToMany(mappedBy = "typesAttak")
-	private List<Attak> attaks = new ArrayList<>();
+	@ManyToMany(mappedBy = "typesAttack")
+	@JsonIgnore
+	private List<Attack> attacks = new ArrayList<>();
 
 	/**
 	 * Récupération de la variable typesResistence définie dans Resistence.java; 0 à
@@ -74,14 +70,14 @@ public class Type implements Serializable {
 	@ManyToMany(mappedBy = "typesWeakness")
 	private List<Weakness> weaknesses = new ArrayList<>();
 
-	public Type(Integer id, String name, String symbol, List<Pokemon> pokemons, List<Attak> attaks,
-			List<Resistence> resistences, List<Weakness> weaknesses) {
+	public Type(Integer id, String name, String symbol, List<Attack> attacks, List<Resistence> resistences,
+			List<Weakness> weaknesses) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.symbol = symbol;
-		this.pokemons = pokemons;
-		this.attaks = attaks;
+//		this.pokemons = pokemons;
+		this.attacks = attacks;
 		this.resistences = resistences;
 		this.weaknesses = weaknesses;
 	}
@@ -110,20 +106,20 @@ public class Type implements Serializable {
 		this.symbol = symbol;
 	}
 
-	public List<Pokemon> getPokemons() {
-		return this.pokemons;
+//	public List<Pokemon> getPokemons() {
+//		return this.pokemons;
+//	}
+//
+//	public void setPokemons(List<Pokemon> pokemons) {
+//		this.pokemons = pokemons;
+//	}
+
+	public List<Attack> getAttacks() {
+		return this.attacks;
 	}
 
-	public void setPokemons(List<Pokemon> pokemons) {
-		this.pokemons = pokemons;
-	}
-
-	public List<Attak> getAttaks() {
-		return this.attaks;
-	}
-
-	public void setAttaks(List<Attak> attaks) {
-		this.attaks = attaks;
+	public void setAttacks(List<Attack> attacks) {
+		this.attacks = attacks;
 	}
 
 	public List<Resistence> getResistences() {

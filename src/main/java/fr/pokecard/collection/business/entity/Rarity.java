@@ -1,13 +1,17 @@
 package fr.pokecard.collection.business.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  *
@@ -47,15 +51,16 @@ public class Rarity implements Serializable {
 	/**
 	 * 1 Rarity est attribué à 1 carte;
 	 */
-	@OneToOne(mappedBy = "ratity")
-	private Card card;
+	@OneToMany(mappedBy = "rarity")
+	@JsonIgnore
+	private List<Card> cards = new ArrayList<>();
 
-	public Rarity(Integer id, String label, String symbol, Card card) {
+	public Rarity(Integer id, String label, String symbol, List<Card> cards) {
 		super();
 		this.id = id;
 		this.label = label;
 		this.symbol = symbol;
-		this.card = card;
+		this.cards = cards;
 	}
 
 	public Integer getId() {
@@ -82,12 +87,12 @@ public class Rarity implements Serializable {
 		this.symbol = symbol;
 	}
 
-	public Card getCard() {
-		return this.card;
+	public List<Card> getCards() {
+		return this.cards;
 	}
 
-	public void setCard(Card card) {
-		this.card = card;
+	public void setCards(List<Card> cards) {
+		this.cards = cards;
 	}
 
 }

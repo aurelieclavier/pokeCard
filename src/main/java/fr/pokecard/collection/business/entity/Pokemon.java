@@ -14,6 +14,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  *
  */
@@ -83,12 +85,11 @@ public class Pokemon implements Serializable {
 	private String generation;
 
 	/**
-	 * Récupération de la variable défini dans Card.java; 1 compte peut avoir
-	 * plusieurs cartes; Plusieurs cartes peuvent être attribuées à plusieurs
-	 * compte;
+	 *
 	 */
-	@ManyToMany(mappedBy = "typesPokemon")
-	private List<Pokemon> pokemons = new ArrayList<>();
+	@ManyToMany(mappedBy = "pokemons")
+	@JsonIgnore
+	private List<Card> cards = new ArrayList<>();
 
 	/**
 	 * Création de la table POKEMON_has_POWER; Un pokémon peut avoir 0 à n power;
@@ -96,14 +97,6 @@ public class Pokemon implements Serializable {
 	@ManyToMany
 	@JoinTable(name = "POKEMON_has_POWER")
 	private List<Power> powers;
-
-	/**
-	 * Création de la table POKEMON_has_ATTAK; Un pokémon peut avoir de 0 à n
-	 * attaque;
-	 */
-	@ManyToMany
-	@JoinTable(name = "POKEMON_has_ATTAK")
-	private List<Attak> attaks;
 
 	/**
 	 * Création de la table POKEMON_has_TYPE; Un pokémon peut avoir de 0 à n type;
@@ -116,8 +109,8 @@ public class Pokemon implements Serializable {
 	private List<Evolution> evolution = new ArrayList<>();
 
 	public Pokemon(Integer id, String nameFr, String nameEn, String nameJp, Integer level, Float weight, Float height,
-			Integer number, String generation, List<Pokemon> pokemons, List<Power> powers, List<Attak> attaks,
-			List<Type> typesPokemon, List<Evolution> evolution) {
+			Integer number, String generation, List<Card> cards, List<Power> powers, List<Type> typesPokemon,
+			List<Evolution> evolution) {
 		super();
 		this.id = id;
 		this.nameFr = nameFr;
@@ -128,9 +121,8 @@ public class Pokemon implements Serializable {
 		this.height = height;
 		this.number = number;
 		this.generation = generation;
-		this.pokemons = pokemons;
+		this.cards = cards;
 		this.powers = powers;
-		this.attaks = attaks;
 		this.typesPokemon = typesPokemon;
 		this.evolution = evolution;
 	}
@@ -207,28 +199,12 @@ public class Pokemon implements Serializable {
 		this.generation = generation;
 	}
 
-	public List<Pokemon> getPokemons() {
-		return this.pokemons;
-	}
-
-	public void setPokemons(List<Pokemon> pokemons) {
-		this.pokemons = pokemons;
-	}
-
 	public List<Power> getPowers() {
 		return this.powers;
 	}
 
 	public void setPowers(List<Power> powers) {
 		this.powers = powers;
-	}
-
-	public List<Attak> getAttaks() {
-		return this.attaks;
-	}
-
-	public void setAttaks(List<Attak> attaks) {
-		this.attaks = attaks;
 	}
 
 	public List<Type> getTypesPokemon() {
@@ -245,6 +221,14 @@ public class Pokemon implements Serializable {
 
 	public void setEvolution(List<Evolution> evolution) {
 		this.evolution = evolution;
+	}
+
+	public List<Card> getCards() {
+		return this.cards;
+	}
+
+	public void setCards(List<Card> cards) {
+		this.cards = cards;
 	}
 
 }

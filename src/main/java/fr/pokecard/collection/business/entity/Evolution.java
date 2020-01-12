@@ -11,6 +11,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  *
  */
@@ -42,6 +44,7 @@ public class Evolution implements Serializable {
 	 */
 	@ManyToOne()
 	@JoinColumn(name = "ID_POKEMON_EVOLUTION", referencedColumnName = "id")
+	@JsonIgnoreProperties("evolution")
 	private Pokemon evolutionPokemon;
 
 	/**
@@ -49,6 +52,7 @@ public class Evolution implements Serializable {
 	 */
 	@OneToOne
 	@JoinColumn(name = "ID_POKEMON", referencedColumnName = "id")
+	@JsonIgnoreProperties("evolution")
 	private Pokemon pokemonEvolution;
 
 	public Evolution(Integer id, Pokemon evolutionPokemon, Pokemon pokemonEvolution) {

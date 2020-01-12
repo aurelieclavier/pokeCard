@@ -11,6 +11,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  *
  */
@@ -45,6 +47,7 @@ public class Weakness implements Serializable {
 	 * Plusieurs carte peuvent avoir la même faiblesse;
 	 */
 	@ManyToMany(mappedBy = "weaknesses")
+	@JsonIgnore
 	private List<Card> cards;
 
 	/**
@@ -52,6 +55,7 @@ public class Weakness implements Serializable {
 	 */
 	@ManyToMany
 	@JoinTable(name = "WEAKNESS_has_TYPE")
+	@JsonIgnore
 	private List<Type> typesWeakness;
 
 	public Weakness(Integer id, Integer rate, List<Card> cards, List<Type> typesWeakness) {

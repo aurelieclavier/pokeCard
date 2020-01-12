@@ -1,13 +1,17 @@
 package fr.pokecard.collection.business.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  *
@@ -47,15 +51,16 @@ public class Retreat implements Serializable {
 	/**
 	 * 1 carte ne peut recevoir que 1 retraite
 	 */
-	@OneToOne(mappedBy = "retreat")
-	private Card card;
+	@OneToMany(mappedBy = "retreat")
+	@JsonIgnore
+	private List<Card> cards = new ArrayList<>();
 
-	public Retreat(Integer id, Integer value, String symbol, Card card) {
+	public Retreat(Integer id, Integer value, String symbol, List<Card> cards) {
 		super();
 		this.id = id;
 		this.value = value;
 		this.symbol = symbol;
-		this.card = card;
+		this.cards = cards;
 	}
 
 	public Integer getId() {
@@ -82,12 +87,12 @@ public class Retreat implements Serializable {
 		this.symbol = symbol;
 	}
 
-	public Card getCard() {
-		return this.card;
+	public List<Card> getCards() {
+		return this.cards;
 	}
 
-	public void setCard(Card card) {
-		this.card = card;
+	public void setCard(List<Card> cards) {
+		this.cards = cards;
 	}
 
 }

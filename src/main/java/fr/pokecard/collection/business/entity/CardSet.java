@@ -1,15 +1,19 @@
 package fr.pokecard.collection.business.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  *
@@ -62,17 +66,17 @@ public class CardSet implements Serializable {
 	/**
 	 * 1 set ne peut contenir que 1 même carte;
 	 */
-	@OneToOne(mappedBy = "cardSet")
-	private Card card;
+	@OneToMany(mappedBy = "cardSet")
+	@JsonIgnore
+	private List<Card> cards = new ArrayList<>();
 
 	/**
 	 * 1 set ne peut avoir qu'une série de carte;
 	 */
-	@OneToOne
-	@JoinColumn(name = "ID_CARD_SERIE")
+	@ManyToOne
 	private CardSerie cardSerie;
 
-	public CardSet(Integer id, String name, Integer totalSet, Integer yearStart, Integer yearEnd, Card card,
+	public CardSet(Integer id, String name, Integer totalSet, Integer yearStart, Integer yearEnd, List<Card> cards,
 			CardSerie cardSerie) {
 		super();
 		this.id = id;
@@ -80,7 +84,7 @@ public class CardSet implements Serializable {
 		this.totalSet = totalSet;
 		this.yearStart = yearStart;
 		this.yearEnd = yearEnd;
-		this.card = card;
+		this.cards = cards;
 		this.cardSerie = cardSerie;
 	}
 
@@ -124,12 +128,12 @@ public class CardSet implements Serializable {
 		this.yearEnd = yearEnd;
 	}
 
-	public Card getCard() {
-		return this.card;
+	public List<Card> getCards() {
+		return this.cards;
 	}
 
-	public void setCard(Card card) {
-		this.card = card;
+	public void setCard(List<Card> cards) {
+		this.cards = cards;
 	}
 
 	public CardSerie getCardSerie() {
