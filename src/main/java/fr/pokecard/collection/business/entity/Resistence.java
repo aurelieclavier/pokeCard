@@ -55,6 +55,7 @@ public class Resistence implements Serializable {
 	 */
 	@ManyToMany
 	@JoinTable(name = "RESISTENCE_has_TYPE")
+	@JsonIgnore
 	private List<Type> typesResistence;
 
 	public Resistence(Integer id, Integer rate, List<Card> cards, List<Type> typesResistence) {
