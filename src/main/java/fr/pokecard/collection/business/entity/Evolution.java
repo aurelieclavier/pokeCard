@@ -45,7 +45,7 @@ public class Evolution implements Serializable {
 	@ManyToOne()
 	@JoinColumn(name = "ID_POKEMON_EVOLUTION", referencedColumnName = "id")
 	@JsonIgnoreProperties("evolution")
-	private Pokemon evolutionPokemon;
+	private Pokemon pokemonLowLevel;
 
 	/**
 	 * 1 evolution pour 1 pokémon;
@@ -53,13 +53,13 @@ public class Evolution implements Serializable {
 	@OneToOne
 	@JoinColumn(name = "ID_POKEMON", referencedColumnName = "id")
 	@JsonIgnoreProperties("evolution")
-	private Pokemon pokemonEvolution;
+	private Pokemon pokemonHightLevel;
 
-	public Evolution(Integer id, Pokemon evolutionPokemon, Pokemon pokemonEvolution) {
+	public Evolution(Integer id, Pokemon pokemonLowLevel, Pokemon pokemonHightLevel) {
 		super();
 		this.id = id;
-		this.evolutionPokemon = evolutionPokemon;
-		this.pokemonEvolution = pokemonEvolution;
+		this.pokemonLowLevel = pokemonLowLevel;
+		this.pokemonHightLevel = pokemonHightLevel;
 	}
 
 	public Integer getId() {
@@ -70,20 +70,20 @@ public class Evolution implements Serializable {
 		this.id = id;
 	}
 
-	public Pokemon getEvolutionPokemon() {
-		return this.evolutionPokemon;
+	public Pokemon getPokemonLowLevel() {
+		return this.pokemonLowLevel;
 	}
 
-	public void setEvolutionPokemon(Pokemon evolutionPokemon) {
-		this.evolutionPokemon = evolutionPokemon;
+	public void setPokemonLowLevel(Pokemon pokemonLowLevel) {
+		this.pokemonLowLevel = pokemonLowLevel;
 	}
 
-	public Pokemon getPokemonEvolution() {
-		return this.pokemonEvolution;
+	public Pokemon getPokemonHightLevel() {
+		return this.pokemonHightLevel;
 	}
 
-	public void setPokemonEvolution(Pokemon pokemonEvolution) {
-		this.pokemonEvolution = pokemonEvolution;
+	public void setPokemonHightLevel(Pokemon pokemonHightLevel) {
+		this.pokemonHightLevel = pokemonHightLevel;
 	}
 
 }

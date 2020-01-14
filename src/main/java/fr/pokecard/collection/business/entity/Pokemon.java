@@ -105,7 +105,7 @@ public class Pokemon implements Serializable {
 	@JoinTable(name = "POKEMON_has_TYPE")
 	private List<Type> typesPokemon;
 
-	@OneToMany(mappedBy = "evolutionPokemon")
+	@OneToMany(mappedBy = "pokemonLowLevel")
 	private List<Evolution> evolution = new ArrayList<>();
 
 	public Pokemon(Integer id, String nameFr, String nameEn, String nameJp, Integer level, Float weight, Float height,
