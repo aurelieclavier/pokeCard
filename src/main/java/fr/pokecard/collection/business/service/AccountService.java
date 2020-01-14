@@ -50,7 +50,8 @@ public class AccountService {
 		Account updatedAccount = this.getOneById(id);
 		if (updatedAccount != null) {
 			if (account.getPassword() != null) {
-				updatedAccount.setPassword(account.getPassword());
+				final String hashedPassword = this.bCrypt.encode(account.getPassword());
+				updatedAccount.setPassword(hashedPassword);
 			}
 			if (account.getUsername() != null) {
 				updatedAccount.setUsername(account.getUsername());
