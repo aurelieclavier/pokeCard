@@ -70,16 +70,22 @@ public class Type implements Serializable {
 	@ManyToMany(mappedBy = "typesWeakness")
 	private List<Weakness> weaknesses = new ArrayList<>();
 
+	/*
+	 * Constructor
+	 */
 	public Type(Integer id, String name, String symbol, List<Attack> attacks, List<Resistence> resistences,
 			List<Weakness> weaknesses) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.symbol = symbol;
-//		this.pokemons = pokemons;
 		this.attacks = attacks;
 		this.resistences = resistences;
 		this.weaknesses = weaknesses;
+	}
+
+	public Type(String name) {
+		this.name = name;
 	}
 
 	public Integer getId() {
