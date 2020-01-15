@@ -17,4 +17,12 @@ public class TypeService {
 	public List<Type> getAll() {
 		return this.typeRepository.findAll();
 	}
+
+	public void saveData(String name) {
+		Type type = this.typeRepository.findOneByName(name);
+		if (type == null) {
+			Type newType = new Type(name);
+			this.typeRepository.save(newType);
+		}
+	}
 }
