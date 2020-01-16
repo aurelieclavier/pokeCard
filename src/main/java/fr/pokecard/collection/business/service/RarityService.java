@@ -17,4 +17,12 @@ public class RarityService {
 	public List<Rarity> getAll() {
 		return this.rarityRepository.findAll();
 	}
+
+	public void saveData(String label) {
+		Rarity rarity = this.rarityRepository.findOneByLabel(label);
+		if (rarity == null && label != null && !label.isEmpty()) {
+			Rarity newRarity = new Rarity(label);
+			this.rarityRepository.save(newRarity);
+		}
+	}
 }

@@ -63,6 +63,10 @@ public class Rarity implements Serializable {
 		this.cards = cards;
 	}
 
+	public Rarity(String label) {
+		this.label = label;
+	}
+
 	public Integer getId() {
 		return this.id;
 	}
