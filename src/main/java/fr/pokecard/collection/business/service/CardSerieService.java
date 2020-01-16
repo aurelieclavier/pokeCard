@@ -17,4 +17,12 @@ public class CardSerieService {
 	public List<CardSerie> getAll() {
 		return this.cardSerieRepository.findAll();
 	}
+
+	public void saveData(String name) {
+		CardSerie cardSerie = this.cardSerieRepository.findOneByName(name);
+		if (cardSerie == null) {
+			CardSerie newSerie = new CardSerie(name);
+			this.cardSerieRepository.save(newSerie);
+		}
+	}
 }

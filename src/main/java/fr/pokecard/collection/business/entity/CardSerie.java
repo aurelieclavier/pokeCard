@@ -91,6 +91,10 @@ public class CardSerie implements Serializable {
 		this.cardSets = cardSets;
 	}
 
+	public CardSerie(String name) {
+		this.name = name;
+	}
+
 	public Integer getId() {
 		return this.id;
 	}
