@@ -11,6 +11,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import fr.pokecard.collection.business.service.CardSerieService;
 import fr.pokecard.collection.business.service.CardService;
+import fr.pokecard.collection.business.service.CardSubtypeService;
 import fr.pokecard.collection.business.service.CardTypeService;
 import fr.pokecard.collection.business.service.RarityService;
 import fr.pokecard.collection.business.service.TypeService;
@@ -32,6 +33,9 @@ public class DataController {
 
 	@Autowired
 	private CardTypeService cardTypeService;
+
+	@Autowired
+	private CardSubtypeService cardSubtypeService;
 
 	/**
 	 * Default constructor
@@ -57,7 +61,7 @@ public class DataController {
 				}
 			}
 		} catch (Exception e) {
-			System.out.println("Erreur de récupération des sets");
+			System.out.println("Erreur de récupération des series");
 		}
 	}
 
@@ -106,6 +110,28 @@ public class DataController {
 	/*
 	 * OK !!!
 	 */
+	@GetMapping("/data/subtype")
+	public void getDataSubType() {
+		final ObjectMapper mapper = new ObjectMapper();
+		final String JSON_POKEMON_API_SUBTYPES = "https://api.pokemontcg.io/v1/subtypes";
+
+		try {
+			JsonNode rootSubTypes = mapper.readTree(new URL(JSON_POKEMON_API_SUBTYPES));
+			JsonNode subTypeNode = rootSubTypes.path("subtypes");
+
+			for (JsonNode subType : subTypeNode) {
+				this.cardSubtypeService.saveData(subType.toString().substring(1, subType.toString().length() - 1));
+//				System.out.println(subType.toString().substring(1, subType.toString().length() - 1));
+			}
+
+		} catch (Exception e) {
+			System.out.println("Erreur de récupération des sous types");
+		}
+	}
+
+	/*
+	 * OK !!!
+	 */
 	@GetMapping("/data/rarity")
 	public void getDataRarity() {
 		final ObjectMapper mapper = new ObjectMapper();
@@ -121,24 +147,6 @@ public class DataController {
 			}
 		} catch (Exception e) {
 			System.out.println("Erreur de récupération des cartes");
-		}
-	}
-
-	@GetMapping("/data/subtype")
-	public void getDataSubType() {
-		final ObjectMapper mapper = new ObjectMapper();
-		final String JSON_POKEMON_API_SUBTYPES = "https://api.pokemontcg.io/v1/subtypes";
-
-		try {
-			JsonNode rootSubTypes = mapper.readTree(new URL(JSON_POKEMON_API_SUBTYPES));
-			JsonNode subTypeNode = rootSubTypes.path("subtypes");
-
-			for (JsonNode subType : subTypeNode) {
-				System.out.println(subType.toString().substring(1, subType.toString().length() - 1));
-			}
-
-		} catch (Exception e) {
-			System.out.println("Erreur de récupération des sous types");
 		}
 	}
 
