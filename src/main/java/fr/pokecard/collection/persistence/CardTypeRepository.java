@@ -10,5 +10,5 @@ import fr.pokecard.collection.business.entity.CardType;
  */
 @Repository
 public interface CardTypeRepository extends JpaRepository<CardType, Integer> {
-
+	CardType findOneByName(final String name);
 }

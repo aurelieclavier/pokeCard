@@ -17,4 +17,12 @@ public class CardTypeService {
 	public List<CardType> getAll() {
 		return this.cardTypeRepository.findAll();
 	}
+
+	public void saveData(String name) {
+		CardType type = this.cardTypeRepository.findOneByName(name);
+		if (type == null) {
+			CardType newType = new CardType(name);
+			this.cardTypeRepository.save(newType);
+		}
+	}
 }

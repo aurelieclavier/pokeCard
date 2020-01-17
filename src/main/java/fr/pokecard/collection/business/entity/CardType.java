@@ -57,6 +57,10 @@ public class CardType implements Serializable {
 		this.cards = cards;
 	}
 
+	public CardType(String name) {
+		this.name = name;
+	}
+
 	public Integer getId() {
 		return this.id;
 	}
