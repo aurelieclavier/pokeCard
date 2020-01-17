@@ -57,6 +57,10 @@ public class CardSubtype implements Serializable {
 		this.cards = cards;
 	}
 
+	public CardSubtype(String name) {
+		this.name = name;
+	}
+
 	public Integer getId() {
 		return this.id;
 	}
