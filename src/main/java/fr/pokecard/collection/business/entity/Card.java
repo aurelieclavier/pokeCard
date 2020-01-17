@@ -107,6 +107,12 @@ public class Card implements Serializable {
 	private CardType cardType;
 
 	/**
+	 *
+	 */
+	@ManyToOne
+	private CardSubtype cardSubtype;
+
+	/**
 	 * Jointure de la table Set; 1 carte ne peut être présente que dans 1 set;
 	 */
 	@ManyToOne
@@ -137,8 +143,8 @@ public class Card implements Serializable {
 	private List<Weakness> weaknesses;
 
 	public Card(Integer id, String name, Integer pv, String description, String image, Integer cardNumber,
-			String illustrator, List<Account> accounts, List<Pokemon> pokemons, Rarity rarity, CardType cardType,
-			CardSet cardSet, Retreat retreat, List<Attack> attacks, List<Resistence> resistences,
+			String illustrator, List<Account> accounts, List<Pokemon> pokemons, List<Attack> attacks, Rarity rarity,
+			CardType cardType, CardSubtype cardSubtype, CardSet cardSet, Retreat retreat, List<Resistence> resistences,
 			List<Weakness> weaknesses) {
 		super();
 		this.id = id;
@@ -150,13 +156,14 @@ public class Card implements Serializable {
 		this.illustrator = illustrator;
 		this.accounts = accounts;
 		this.pokemons = pokemons;
+		this.attacks = attacks;
 		this.rarity = rarity;
 		this.cardType = cardType;
+		this.cardSubtype = cardSubtype;
 		this.cardSet = cardSet;
 		this.retreat = retreat;
 		this.resistences = resistences;
 		this.weaknesses = weaknesses;
-		this.attacks = attacks;
 	}
 
 	public Integer getId() {
@@ -285,6 +292,22 @@ public class Card implements Serializable {
 
 	public void setAttacks(List<Attack> attacks) {
 		this.attacks = attacks;
+	}
+
+	public CardSubtype getCardSubtype() {
+		return this.cardSubtype;
+	}
+
+	public void setCardSubtype(CardSubtype cardSubtype) {
+		this.cardSubtype = cardSubtype;
+	}
+
+	public CardSet getCardSet() {
+		return this.cardSet;
+	}
+
+	public void setCardSet(CardSet cardSet) {
+		this.cardSet = cardSet;
 	}
 
 }
