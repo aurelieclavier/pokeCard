@@ -11,6 +11,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import fr.pokecard.collection.business.service.CardSerieService;
 import fr.pokecard.collection.business.service.CardService;
+import fr.pokecard.collection.business.service.CardTypeService;
 import fr.pokecard.collection.business.service.RarityService;
 import fr.pokecard.collection.business.service.TypeService;
 
@@ -29,12 +30,18 @@ public class DataController {
 	@Autowired
 	private CardSerieService cardSerieService;
 
+	@Autowired
+	private CardTypeService cardTypeService;
+
 	/**
 	 * Default constructor
 	 */
 	public DataController() {
 	}
 
+	/*
+	 * OK !!!
+	 */
 	@GetMapping("data/serie")
 	public void getDataSerie() {
 		final ObjectMapper mapper = new ObjectMapper();
@@ -47,7 +54,6 @@ public class DataController {
 				for (JsonNode set : setNode) {
 					String serie = set.findPath("series").asText();
 					this.cardSerieService.saveData(serie);
-					System.out.println(serie.toString() + "\n");
 				}
 			}
 		} catch (Exception e) {
@@ -55,6 +61,9 @@ public class DataController {
 		}
 	}
 
+	/*
+	 * OK !!!
+	 */
 	@GetMapping("/data/type")
 	public void getDataType() {
 		final ObjectMapper mapper = new ObjectMapper();
@@ -73,6 +82,30 @@ public class DataController {
 		}
 	}
 
+	/*
+	 * OK !!!
+	 */
+	@GetMapping("/data/supertype")
+	public void getDataSuperType() {
+		final ObjectMapper mapper = new ObjectMapper();
+		final String JSON_POKEMON_API_SUPERTYPES = "https://api.pokemontcg.io/v1/supertypes";
+
+		try {
+			JsonNode rootSuperTypes = mapper.readTree(new URL(JSON_POKEMON_API_SUPERTYPES));
+			JsonNode superTypeNode = rootSuperTypes.path("supertypes");
+
+			for (JsonNode superType : superTypeNode) {
+				this.cardTypeService.saveData(superType.toString().substring(1, superType.toString().length() - 1));
+			}
+
+		} catch (Exception e) {
+			System.out.println("Erreur de récupération des supers types");
+		}
+	}
+
+	/*
+	 * OK !!!
+	 */
 	@GetMapping("/data/rarity")
 	public void getDataRarity() {
 		final ObjectMapper mapper = new ObjectMapper();
@@ -88,24 +121,6 @@ public class DataController {
 			}
 		} catch (Exception e) {
 			System.out.println("Erreur de récupération des cartes");
-		}
-	}
-
-	@GetMapping("/data/supertype")
-	public void getDataSuperType() {
-		final ObjectMapper mapper = new ObjectMapper();
-		final String JSON_POKEMON_API_SUPERTYPES = "https://api.pokemontcg.io/v1/supertypes";
-
-		try {
-			JsonNode rootSuperTypes = mapper.readTree(new URL(JSON_POKEMON_API_SUPERTYPES));
-			JsonNode superTypeNode = rootSuperTypes.path("supertypes");
-
-			for (JsonNode superType : superTypeNode) {
-				System.out.println(superType.toString().substring(1, superType.toString().length() - 1));
-			}
-
-		} catch (Exception e) {
-			System.out.println("Erreur de récupération des supers types");
 		}
 	}
 
