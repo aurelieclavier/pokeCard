@@ -1,7 +1,7 @@
 package fr.pokecard.collection.business.entity;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,7 +47,7 @@ public class CardSet implements Serializable {
 	private Integer totalCards;
 
 	@Column(name = "RELEASE_DATE")
-	private LocalDateTime releaseDate;
+	private LocalDate releaseDate;
 
 	private String symbol;
 
@@ -73,7 +73,7 @@ public class CardSet implements Serializable {
 	/**
 	 * Constructors
 	 */
-	public CardSet(Integer id, String name, Integer totalCards, LocalDateTime releaseDate, String symbol, String logo,
+	public CardSet(Integer id, String name, Integer totalCards, LocalDate releaseDate, String symbol, String logo,
 			String code, String ptcgoCode, List<Card> cards, CardSerie cardSerie) {
 		super();
 		this.id = id;
@@ -85,6 +85,18 @@ public class CardSet implements Serializable {
 		this.code = code;
 		this.ptcgoCode = ptcgoCode;
 		this.cards = cards;
+		this.cardSerie = cardSerie;
+	}
+
+	public CardSet(String name, Integer totalCards, LocalDate releaseDate, String symbol, String logo, String code,
+			String ptcgoCode, CardSerie cardSerie) {
+		this.name = name;
+		this.totalCards = totalCards;
+		this.releaseDate = releaseDate;
+		this.symbol = symbol;
+		this.logo = logo;
+		this.code = code;
+		this.ptcgoCode = ptcgoCode;
 		this.cardSerie = cardSerie;
 	}
 
@@ -115,11 +127,11 @@ public class CardSet implements Serializable {
 		this.totalCards = totalCards;
 	}
 
-	public LocalDateTime getReleaseDate() {
+	public LocalDate getReleaseDate() {
 		return this.releaseDate;
 	}
 
-	public void setReleaseDate(LocalDateTime releaseDate) {
+	public void setReleaseDate(LocalDate releaseDate) {
 		this.releaseDate = releaseDate;
 	}
 
