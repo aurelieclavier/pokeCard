@@ -12,8 +12,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 /**
  *
  */
@@ -33,44 +31,20 @@ public class CardSerie implements Serializable {
 	}
 
 	/**
-	 *
+	 * Entities
 	 */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	/**
-	 *
-	 */
 	private String name;
 
-	/**
-	 *
-	 */
-	private String brand;
+	private String publisher;
 
-	/**
-	 *
-	 */
-	@Column(name = "YEAR_START")
-	private Integer yearStart;
+	@Column(name = "TOTAL_CARDS")
+	private Integer totalCards;
 
-	/**
-	 *
-	 */
-	@Column(name = "YEAR_END")
-	private Integer yearEnd;
-
-	/**
-	 *
-	 */
-	@Column(name = "TOTAL_CARD_SERIE")
-	private Integer totalCardSerie;
-
-	/**
-	 *
-	 */
-	private String symbol;
+	private String logo;
 
 	/**
 	 * 1 série de carte ne peut appartenir qu'à 1 set;
@@ -78,16 +52,17 @@ public class CardSerie implements Serializable {
 	@OneToMany(mappedBy = "cardSerie")
 	private List<CardSet> cardSets = new ArrayList<>();
 
-	public CardSerie(Integer id, String name, String brand, Integer yearStart, Integer yearEnd, Integer totalCardSerie,
-			String symbol, List<CardSet> cardSets) {
+	/**
+	 * Constructors
+	 */
+	public CardSerie(Integer id, String name, String publisher, Integer totalCards, String logo,
+			List<CardSet> cardSets) {
 		super();
 		this.id = id;
 		this.name = name;
-		this.brand = brand;
-		this.yearStart = yearStart;
-		this.yearEnd = yearEnd;
-		this.totalCardSerie = totalCardSerie;
-		this.symbol = symbol;
+		this.publisher = publisher;
+		this.totalCards = totalCards;
+		this.logo = logo;
 		this.cardSets = cardSets;
 	}
 
@@ -95,6 +70,9 @@ public class CardSerie implements Serializable {
 		this.name = name;
 	}
 
+	/**
+	 * Getters and Setters
+	 */
 	public Integer getId() {
 		return this.id;
 	}
@@ -111,52 +89,35 @@ public class CardSerie implements Serializable {
 		this.name = name;
 	}
 
-	public String getBrand() {
-		return this.brand;
+	public String getPublisher() {
+		return this.publisher;
 	}
 
-	public void setBrand(String brand) {
-		this.brand = brand;
+	public void setPublisher(String publisher) {
+		this.publisher = publisher;
 	}
 
-	public Integer getYearStart() {
-		return this.yearStart;
+	public Integer getTotalCards() {
+		return this.totalCards;
 	}
 
-	public void setYearStart(Integer yearStart) {
-		this.yearStart = yearStart;
+	public void setTotalCards(Integer totalCards) {
+		this.totalCards = totalCards;
 	}
 
-	public Integer getYearEnd() {
-		return this.yearEnd;
+	public String getLogo() {
+		return this.logo;
 	}
 
-	public void setYearEnd(Integer yearEnd) {
-		this.yearEnd = yearEnd;
+	public void setLogo(String logo) {
+		this.logo = logo;
 	}
 
-	public Integer getTotalCardSerie() {
-		return this.totalCardSerie;
-	}
-
-	public void setTotalCardSerie(Integer totalCardSerie) {
-		this.totalCardSerie = totalCardSerie;
-	}
-
-	public String getSymbol() {
-		return this.symbol;
-	}
-
-	public void setSymbol(String symbol) {
-		this.symbol = symbol;
-	}
-
-	@JsonIgnore
-	public List<CardSet> getSets() {
+	public List<CardSet> getCardSets() {
 		return this.cardSets;
 	}
 
-	public void setSet(List<CardSet> cardSets) {
+	public void setCardSets(List<CardSet> cardSets) {
 		this.cardSets = cardSets;
 	}
 
