@@ -1,6 +1,7 @@
 package fr.pokecard.collection.business.entity;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,34 +35,27 @@ public class CardSet implements Serializable {
 	}
 
 	/**
-	 *
+	 * Entities
 	 */
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	/**
-	 *
-	 */
 	private String name;
 
-	/**
-	 *
-	 */
-	@Column(name = "TOTAL_SET")
-	private Integer totalSet;
+	@Column(name = "TOTAL_CARDS")
+	private Integer totalCards;
 
-	/**
-	 *
-	 */
-	@Column(name = "YEAR_START")
-	private Integer yearStart;
+	@Column(name = "RELEASE_DATE")
+	private LocalDateTime releaseDate;
 
-	/**
-	 *
-	 */
-	@Column(name = "YEAR_END")
-	private Integer yearEnd;
+	private String symbol;
+
+	private String logo;
+
+	private String code;
+
+	private String ptcgoCode;
 
 	/**
 	 * 1 set ne peut contenir que 1 même carte;
@@ -76,18 +70,27 @@ public class CardSet implements Serializable {
 	@ManyToOne
 	private CardSerie cardSerie;
 
-	public CardSet(Integer id, String name, Integer totalSet, Integer yearStart, Integer yearEnd, List<Card> cards,
-			CardSerie cardSerie) {
+	/**
+	 * Constructors
+	 */
+	public CardSet(Integer id, String name, Integer totalCards, LocalDateTime releaseDate, String symbol, String logo,
+			String code, String ptcgoCode, List<Card> cards, CardSerie cardSerie) {
 		super();
 		this.id = id;
 		this.name = name;
-		this.totalSet = totalSet;
-		this.yearStart = yearStart;
-		this.yearEnd = yearEnd;
+		this.totalCards = totalCards;
+		this.releaseDate = releaseDate;
+		this.symbol = symbol;
+		this.logo = logo;
+		this.code = code;
+		this.ptcgoCode = ptcgoCode;
 		this.cards = cards;
 		this.cardSerie = cardSerie;
 	}
 
+	/**
+	 * Getters and Setters
+	 */
 	public Integer getId() {
 		return this.id;
 	}
@@ -104,35 +107,59 @@ public class CardSet implements Serializable {
 		this.name = name;
 	}
 
-	public Integer getTotalSet() {
-		return this.totalSet;
+	public Integer getTotalCards() {
+		return this.totalCards;
 	}
 
-	public void setTotalSet(Integer totalSet) {
-		this.totalSet = totalSet;
+	public void setTotalCards(Integer totalCards) {
+		this.totalCards = totalCards;
 	}
 
-	public Integer getYearStart() {
-		return this.yearStart;
+	public LocalDateTime getReleaseDate() {
+		return this.releaseDate;
 	}
 
-	public void setYearStart(Integer yearStart) {
-		this.yearStart = yearStart;
+	public void setReleaseDate(LocalDateTime releaseDate) {
+		this.releaseDate = releaseDate;
 	}
 
-	public Integer getYearEnd() {
-		return this.yearEnd;
+	public String getSymbol() {
+		return this.symbol;
 	}
 
-	public void setYearEnd(Integer yearEnd) {
-		this.yearEnd = yearEnd;
+	public void setSymbol(String symbol) {
+		this.symbol = symbol;
+	}
+
+	public String getLogo() {
+		return this.logo;
+	}
+
+	public void setLogo(String logo) {
+		this.logo = logo;
+	}
+
+	public String getCode() {
+		return this.code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	public String getPtcgoCode() {
+		return this.ptcgoCode;
+	}
+
+	public void setPtcgoCode(String ptcgoCode) {
+		this.ptcgoCode = ptcgoCode;
 	}
 
 	public List<Card> getCards() {
 		return this.cards;
 	}
 
-	public void setCard(List<Card> cards) {
+	public void setCards(List<Card> cards) {
 		this.cards = cards;
 	}
 
