@@ -155,6 +155,17 @@ public class Card implements Serializable {
 		this.weaknesses = weaknesses;
 	}
 
+	public Card(String code, String name, Integer nationalPokedexNumber, String image, Integer hp, Integer cardNumber,
+			String illustrator) {
+		this.code = code;
+		this.name = name;
+		this.nationalPokedexNumber = nationalPokedexNumber;
+		this.image = image;
+		this.hp = hp;
+		this.cardNumber = cardNumber;
+		this.illustrator = illustrator;
+	}
+
 	public Integer getId() {
 		return this.id;
 	}
