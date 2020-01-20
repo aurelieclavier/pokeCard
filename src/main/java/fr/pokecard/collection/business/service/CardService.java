@@ -21,4 +21,13 @@ public class CardService {
 	public Card getOneById(Integer id) {
 		return this.cardRepository.findOneById(id);
 	}
+
+	public void saveData(String code, String name, Integer nationalPokedexNumber, String image, Integer hp,
+			Integer cardNumber, String illustrator) {
+		Card card = this.cardRepository.findOneByName(name);
+		if (card == null) {
+			Card newCard = new Card(code, name, nationalPokedexNumber, image, hp, cardNumber, illustrator);
+			this.cardRepository.save(newCard);
+		}
+	}
 }
