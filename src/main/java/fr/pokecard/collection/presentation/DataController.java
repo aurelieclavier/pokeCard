@@ -226,7 +226,7 @@ public class DataController {
 	}
 
 	@GetMapping("/data/card")
-	public static void getDataCard() {
+	public void getDataCard() {
 
 		final ObjectMapper mapper = new ObjectMapper();
 		final String JSON_POKEMON_API_CARDS = "https://api.pokemontcg.io/v1/cards";
@@ -235,42 +235,18 @@ public class DataController {
 			JsonNode rootCards = mapper.readTree(new URL(JSON_POKEMON_API_CARDS));
 			JsonNode cardNode = rootCards.path("cards");
 
-//			System.out.println("card : " + cardNode);
-
 			if (cardNode.isArray()) {
-				System.out.println("Is this node an Array? " + cardNode.isArray());
-
 				for (JsonNode card : cardNode) {
+
+					String code = card.path("id").asText();
 					String name = card.path("name").asText();
-					Integer pokedexNumber = card.path("nationalPokedexNumber").asInt();
+					Integer nationalPokedexNumber = card.path("nationalPokedexNumber").asInt();
 					String image = card.path("imageUrlHiRes").asText();
-					String evolution = card.path("evolvesFrom").asText();
-					String hp = card.path("hp").asText();
-					String number = card.path("number").asText();
-					String artist = card.path("artist").asText();
-					String rarity = card.findPath("rarity").asText();
-					String serie = card.findPath("series").asText();
-					String set = card.findPath("set").asText();
-					String setCode = card.findPath("setCode").asText();
+					Integer hp = card.path("hp").asInt();
+					Integer cardNumber = card.path("number").asInt();
+					String illustrator = card.path("artist").asText();
 
-					System.out.println(card.toString().substring(1, card.toString().length() - 1) + "\n" + "\n");
-
-//					System.out.println(
-//							"*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_");
-//					System.out.println("name : " + name);
-//					System.out.println("pokedex number : " + pokedexNumber);
-//					System.out.println("image : " + image);
-//					System.out.println("evolution : " + evolution);
-//					System.out.println("hp : " + hp);
-//					System.out.println("number : " + number);
-//					System.out.println("artist : " + artist);
-//					System.out.println("rarity : " + rarity);
-//					System.out.println("serie : " + serie);
-//					System.out.println("set : " + set);
-//					System.out.println("set code : " + setCode);
-//
-//					System.out.println(
-//							"*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_");
+					this.cardService.saveData(code, name, nationalPokedexNumber, image, hp, cardNumber, illustrator);
 				}
 			}
 		} catch (Exception e) {
