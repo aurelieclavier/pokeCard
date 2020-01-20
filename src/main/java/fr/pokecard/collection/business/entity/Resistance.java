@@ -17,8 +17,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  *
  */
 @Entity
-@Table(name = "RESISTENCE")
-public class Resistence implements Serializable {
+@Table(name = "RESISTANCE")
+public class Resistance implements Serializable {
 
 	/**
 	 *
@@ -28,7 +28,7 @@ public class Resistence implements Serializable {
 	/**
 	 * Default constructor
 	 */
-	public Resistence() {
+	public Resistance() {
 	}
 
 	/**
@@ -46,7 +46,7 @@ public class Resistence implements Serializable {
 	/**
 	 * Plusieurs carte peuvent avoir la même résistance;
 	 */
-	@ManyToMany(mappedBy = "resistences")
+	@ManyToMany(mappedBy = "resistances")
 	@JsonIgnore
 	private List<Card> cards;
 
@@ -54,16 +54,16 @@ public class Resistence implements Serializable {
 	 * 1 résitance peut avoir plusieurs type;
 	 */
 	@ManyToMany
-	@JoinTable(name = "RESISTENCE_has_TYPE")
+	@JoinTable(name = "RESISTANCE_has_TYPE")
 	@JsonIgnore
-	private List<Type> typesResistence;
+	private List<Type> typesResistance;
 
-	public Resistence(Integer id, Integer rate, List<Card> cards, List<Type> typesResistence) {
+	public Resistance(Integer id, Integer rate, List<Card> cards, List<Type> typesResistance) {
 		super();
 		this.id = id;
 		this.rate = rate;
 		this.cards = cards;
-		this.typesResistence = typesResistence;
+		this.typesResistance = typesResistance;
 	}
 
 	public Integer getId() {
@@ -90,12 +90,12 @@ public class Resistence implements Serializable {
 		this.cards = cards;
 	}
 
-	public List<Type> getTypesResistence() {
-		return this.typesResistence;
+	public List<Type> getTypesResistance() {
+		return this.typesResistance;
 	}
 
-	public void setTypesResistence(List<Type> typesResistence) {
-		this.typesResistence = typesResistence;
+	public void setTypesResistance(List<Type> typesResistance) {
+		this.typesResistance = typesResistance;
 	}
 
 }

@@ -12,7 +12,7 @@ import fr.pokecard.collection.business.entity.CardSerie;
 import fr.pokecard.collection.business.entity.CardSet;
 import fr.pokecard.collection.business.entity.CardType;
 import fr.pokecard.collection.business.entity.Rarity;
-import fr.pokecard.collection.business.entity.Resistence;
+import fr.pokecard.collection.business.entity.Resistance;
 import fr.pokecard.collection.business.entity.Retreat;
 import fr.pokecard.collection.business.entity.Weakness;
 import fr.pokecard.collection.business.service.CardSerieService;
@@ -102,7 +102,7 @@ public class CardController {
 	}
 
 	@GetMapping("/cards/resistence")
-	List<Resistence> getAllResistence() {
+	List<Resistance> getAllResistence() {
 		return this.resistenceService.getAll();
 	}
 
