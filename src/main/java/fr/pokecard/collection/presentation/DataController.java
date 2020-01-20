@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import fr.pokecard.collection.business.service.AttakService;
 import fr.pokecard.collection.business.service.CardSerieService;
 import fr.pokecard.collection.business.service.CardService;
 import fr.pokecard.collection.business.service.CardSetService;
@@ -43,6 +44,9 @@ public class DataController {
 	@Autowired
 	private CardSubtypeService cardSubtypeService;
 
+	@Autowired
+	private AttakService attakService;
+
 	/**
 	 * Default constructor
 	 */
@@ -71,6 +75,9 @@ public class DataController {
 		}
 	}
 
+	/*
+	 * OK !!!
+	 */
 	@GetMapping("/data/set")
 	public void getDataSet() {
 		final ObjectMapper mapper = new ObjectMapper();
@@ -186,6 +193,35 @@ public class DataController {
 			}
 		} catch (Exception e) {
 			System.out.println("Erreur de récupération des cartes");
+		}
+	}
+
+	@GetMapping("data/attack")
+	public void getDataAttack() {
+		final ObjectMapper mapper = new ObjectMapper();
+		final String JSON_POKEMON_API_CARDS = "https://api.pokemontcg.io/v1/cards";
+
+		try {
+			JsonNode rootCards = mapper.readTree(new URL(JSON_POKEMON_API_CARDS));
+			JsonNode cardNode = rootCards.path("cards");
+
+			if (cardNode.isArray()) {
+				for (JsonNode card : cardNode) {
+					JsonNode attack = card.path("attacks");
+
+					if (attack.isArray()) {
+						System.out.println("ATTACKS IS AN ARRAY !");
+						String attackName = attack.findPath("name").asText();
+						String attackDescription = attack.findPath("text").asText();
+						String attackDamage = attack.findPath("damage").asText();
+						this.attakService.saveData(attackName, attackDescription, attackDamage);
+					}
+
+				}
+			}
+
+		} catch (Exception e) {
+			System.out.println(e);
 		}
 	}
 
