@@ -41,35 +41,22 @@ public class Card implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	/**
-	 *
-	 */
+	private String code;
+
 	private String name;
 
-	/**
-	 *
-	 */
-	private Integer pv;
+	@Column(name = "NATIONAL_POKEDEX_NUMBER")
+	private Integer nationalPokedexNumber;
 
-	/**
-	 *
-	 */
-	private String description;
-
-	/**
-	 *
-	 */
 	private String image;
 
-	/**
-	 *
-	 */
+	private Integer hp;
+
+	private String description;
+
 	@Column(name = "CARD_NUMBER")
 	private Integer cardNumber;
 
-	/**
-	 *
-	 */
 	private String illustrator;
 
 	/**
@@ -131,7 +118,7 @@ public class Card implements Serializable {
 	@ManyToMany
 	@JoinTable(name = "CARD_has_RESISTENCE")
 	@JsonIgnore
-	private List<Resistence> resistences;
+	private List<Resistance> resistances;
 
 	/**
 	 * Création de la table de jointure CARD_has_RESISTENCE; 1 résistance peut être
@@ -142,16 +129,18 @@ public class Card implements Serializable {
 	@JsonIgnore
 	private List<Weakness> weaknesses;
 
-	public Card(Integer id, String name, Integer pv, String description, String image, Integer cardNumber,
-			String illustrator, List<Account> accounts, List<Pokemon> pokemons, List<Attack> attacks, Rarity rarity,
-			CardType cardType, CardSubtype cardSubtype, CardSet cardSet, Retreat retreat, List<Resistence> resistences,
-			List<Weakness> weaknesses) {
+	public Card(Integer id, String code, String name, Integer nationalPokedexNumber, String image, Integer hp,
+			String description, Integer cardNumber, String illustrator, List<Account> accounts, List<Pokemon> pokemons,
+			List<Attack> attacks, Rarity rarity, CardType cardType, CardSubtype cardSubtype, CardSet cardSet,
+			Retreat retreat, List<Resistance> resistances, List<Weakness> weaknesses) {
 		super();
 		this.id = id;
+		this.code = code;
 		this.name = name;
-		this.pv = pv;
-		this.description = description;
+		this.nationalPokedexNumber = nationalPokedexNumber;
 		this.image = image;
+		this.hp = hp;
+		this.description = description;
 		this.cardNumber = cardNumber;
 		this.illustrator = illustrator;
 		this.accounts = accounts;
@@ -162,7 +151,7 @@ public class Card implements Serializable {
 		this.cardSubtype = cardSubtype;
 		this.cardSet = cardSet;
 		this.retreat = retreat;
-		this.resistences = resistences;
+		this.resistances = resistances;
 		this.weaknesses = weaknesses;
 	}
 
@@ -174,6 +163,14 @@ public class Card implements Serializable {
 		this.id = id;
 	}
 
+	public String getCode() {
+		return this.code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
 	public String getName() {
 		return this.name;
 	}
@@ -182,20 +179,12 @@ public class Card implements Serializable {
 		this.name = name;
 	}
 
-	public Integer getPv() {
-		return this.pv;
+	public Integer getNationalPokedexNumber() {
+		return this.nationalPokedexNumber;
 	}
 
-	public void setPv(Integer pv) {
-		this.pv = pv;
-	}
-
-	public String getDescription() {
-		return this.description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
+	public void setNationalPokedexNumber(Integer nationalPokedexNumber) {
+		this.nationalPokedexNumber = nationalPokedexNumber;
 	}
 
 	public String getImage() {
@@ -204,6 +193,22 @@ public class Card implements Serializable {
 
 	public void setImage(String image) {
 		this.image = image;
+	}
+
+	public Integer getHp() {
+		return this.hp;
+	}
+
+	public void setHp(Integer hp) {
+		this.hp = hp;
+	}
+
+	public String getDescription() {
+		return this.description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public Integer getCardNumber() {
@@ -238,6 +243,14 @@ public class Card implements Serializable {
 		this.pokemons = pokemons;
 	}
 
+	public List<Attack> getAttacks() {
+		return this.attacks;
+	}
+
+	public void setAttacks(List<Attack> attacks) {
+		this.attacks = attacks;
+	}
+
 	public Rarity getRarity() {
 		return this.rarity;
 	}
@@ -254,46 +267,6 @@ public class Card implements Serializable {
 		this.cardType = cardType;
 	}
 
-	public CardSet getSet() {
-		return this.cardSet;
-	}
-
-	public void setSet(CardSet cardSet) {
-		this.cardSet = cardSet;
-	}
-
-	public Retreat getRetreat() {
-		return this.retreat;
-	}
-
-	public void setRetreat(Retreat retreat) {
-		this.retreat = retreat;
-	}
-
-	public List<Resistence> getResistences() {
-		return this.resistences;
-	}
-
-	public void setResistences(List<Resistence> resistences) {
-		this.resistences = resistences;
-	}
-
-	public List<Weakness> getWeaknesses() {
-		return this.weaknesses;
-	}
-
-	public void setWeaknesses(List<Weakness> weaknesses) {
-		this.weaknesses = weaknesses;
-	}
-
-	public List<Attack> getAttacks() {
-		return this.attacks;
-	}
-
-	public void setAttacks(List<Attack> attacks) {
-		this.attacks = attacks;
-	}
-
 	public CardSubtype getCardSubtype() {
 		return this.cardSubtype;
 	}
@@ -308,6 +281,30 @@ public class Card implements Serializable {
 
 	public void setCardSet(CardSet cardSet) {
 		this.cardSet = cardSet;
+	}
+
+	public Retreat getRetreat() {
+		return this.retreat;
+	}
+
+	public void setRetreat(Retreat retreat) {
+		this.retreat = retreat;
+	}
+
+	public List<Resistance> getResistances() {
+		return this.resistances;
+	}
+
+	public void setResistances(List<Resistance> resistances) {
+		this.resistances = resistances;
+	}
+
+	public List<Weakness> getWeaknesses() {
+		return this.weaknesses;
+	}
+
+	public void setWeaknesses(List<Weakness> weaknesses) {
+		this.weaknesses = weaknesses;
 	}
 
 }
