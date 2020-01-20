@@ -13,4 +13,6 @@ public interface CardRepository extends JpaRepository<Card, Integer> {
 
 	Card findOneById(final Integer id);
 
+	Card findOneByName(final String name);
+
 }
