@@ -68,6 +68,9 @@ public class Attack implements Serializable {
 	@JsonIgnore
 	private List<Card> cards = new ArrayList<>();
 
+	/**
+	 * Constructors
+	 */
 	public Attack(Integer id, String name, String description, String damage, List<Type> typesAttack,
 			List<Card> cards) {
 		super();
@@ -79,6 +82,15 @@ public class Attack implements Serializable {
 		this.cards = cards;
 	}
 
+	public Attack(String name, String description, String damage) {
+		this.name = name;
+		this.description = description;
+		this.damage = damage;
+	}
+
+	/**
+	 * Getters and Setters
+	 */
 	public Integer getId() {
 		return this.id;
 	}
