@@ -63,6 +63,10 @@ public class Retreat implements Serializable {
 		this.cards = cards;
 	}
 
+	public Retreat(Integer value) {
+		this.value = value;
+	}
+
 	public Integer getId() {
 		return this.id;
 	}
