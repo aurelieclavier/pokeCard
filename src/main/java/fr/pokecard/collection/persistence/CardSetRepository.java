@@ -10,5 +10,7 @@ import fr.pokecard.collection.business.entity.CardSet;
  */
 @Repository
 public interface CardSetRepository extends JpaRepository<CardSet, Integer> {
+	CardSet findOneByName(final String nameSet);
 
+	CardSet findOneByNameAndCode(final String nameSet, final String code);
 }
