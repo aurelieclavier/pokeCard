@@ -156,7 +156,8 @@ public class Card implements Serializable {
 	}
 
 	public Card(String code, String name, Integer nationalPokedexNumber, String image, Integer hp, Integer cardNumber,
-			String illustrator) {
+			String illustrator, Rarity rarity, CardType cardType, CardSubtype cardSubtype, CardSet cardSet,
+			Retreat retreat) {
 		this.code = code;
 		this.name = name;
 		this.nationalPokedexNumber = nationalPokedexNumber;
@@ -164,6 +165,11 @@ public class Card implements Serializable {
 		this.hp = hp;
 		this.cardNumber = cardNumber;
 		this.illustrator = illustrator;
+		this.rarity = rarity;
+		this.cardType = cardType;
+		this.cardSubtype = cardSubtype;
+		this.cardSet = cardSet;
+		this.retreat = retreat;
 	}
 
 	public Integer getId() {
