@@ -18,6 +18,7 @@ import fr.pokecard.collection.business.service.CardSetService;
 import fr.pokecard.collection.business.service.CardSubtypeService;
 import fr.pokecard.collection.business.service.CardTypeService;
 import fr.pokecard.collection.business.service.RarityService;
+import fr.pokecard.collection.business.service.RetreatService;
 import fr.pokecard.collection.business.service.TypeService;
 
 @RestController
@@ -46,6 +47,9 @@ public class DataController {
 
 	@Autowired
 	private AttakService attakService;
+
+	@Autowired
+	private RetreatService retreatService;
 
 	/**
 	 * Default constructor
@@ -78,7 +82,7 @@ public class DataController {
 	/*
 	 * OK !!!
 	 */
-	@GetMapping("/data/set")
+	@GetMapping("data/set")
 	public void getDataSet() {
 		final ObjectMapper mapper = new ObjectMapper();
 		final String JSON_POKEMON_API_SET = "https://api.pokemontcg.io/v1/sets";
@@ -100,22 +104,40 @@ public class DataController {
 					DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 					// convert String to LocalDateTime
 					LocalDate localDate = LocalDate.parse(releaseDate, formatter);
-
 					this.cardSetService.saveData(name, totalCards, localDate, symbol, logo, code, ptcgoCode, serie);
-
 				}
 			}
 		} catch (Exception e) {
 			System.out.println("Erreur de récupération des sets");
 			System.out.println(e);
 		}
+	}
 
+	/*
+	 *
+	 */
+	@GetMapping("/data/retreat")
+	public void getDataRetreat() {
+		final ObjectMapper mapper = new ObjectMapper();
+		final String JSON_POKEMON_API_TYPES = "https://api.pokemontcg.io/v1/cards";
+
+		try {
+			JsonNode rootRetreats = mapper.readTree(new URL(JSON_POKEMON_API_TYPES));
+			JsonNode retreatNode = rootRetreats.path("cards");
+
+			for (JsonNode retreat : retreatNode) {
+				Integer value = retreat.findPath("convertedRetreatCost").asInt();
+				this.retreatService.saveData(value);
+			}
+		} catch (Exception e) {
+			System.out.println(e + "Erreur de récupération des retraites");
+		}
 	}
 
 	/*
 	 * OK !!!
 	 */
-	@GetMapping("/data/type")
+	@GetMapping("data/type")
 	public void getDataType() {
 		final ObjectMapper mapper = new ObjectMapper();
 		final String JSON_POKEMON_API_TYPES = "https://api.pokemontcg.io/v1/types";
@@ -129,14 +151,14 @@ public class DataController {
 			}
 
 		} catch (Exception e) {
-			System.out.println("Erreur de récupération des types");
+			System.out.println(e + "Erreur de récupération des types");
 		}
 	}
 
 	/*
 	 * OK !!!
 	 */
-	@GetMapping("/data/supertype")
+	@GetMapping("data/supertype")
 	public void getDataSuperType() {
 		final ObjectMapper mapper = new ObjectMapper();
 		final String JSON_POKEMON_API_SUPERTYPES = "https://api.pokemontcg.io/v1/supertypes";
@@ -157,7 +179,7 @@ public class DataController {
 	/*
 	 * OK !!!
 	 */
-	@GetMapping("/data/subtype")
+	@GetMapping("data/subtype")
 	public void getDataSubType() {
 		final ObjectMapper mapper = new ObjectMapper();
 		final String JSON_POKEMON_API_SUBTYPES = "https://api.pokemontcg.io/v1/subtypes";
@@ -178,7 +200,7 @@ public class DataController {
 	/*
 	 * OK !!!
 	 */
-	@GetMapping("/data/rarity")
+	@GetMapping("data/rarity")
 	public void getDataRarity() {
 		final ObjectMapper mapper = new ObjectMapper();
 		final String JSON_POKEMON_API_CARDS = "https://api.pokemontcg.io/v1/cards";
@@ -225,7 +247,7 @@ public class DataController {
 		}
 	}
 
-	@GetMapping("/data/card")
+	@GetMapping("data/card")
 	public void getDataCard() {
 
 		final ObjectMapper mapper = new ObjectMapper();
