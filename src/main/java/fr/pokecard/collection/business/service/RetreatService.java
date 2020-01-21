@@ -17,4 +17,12 @@ public class RetreatService {
 	public List<Retreat> getAll() {
 		return this.retreatRepository.findAll();
 	}
+
+	public void saveData(Integer value) {
+		Retreat retreat = this.retreatRepository.findOneByValue(value);
+		if (retreat == null) {
+			Retreat newRetreat = new Retreat(value);
+			this.retreatRepository.save(newRetreat);
+		}
+	}
 }
