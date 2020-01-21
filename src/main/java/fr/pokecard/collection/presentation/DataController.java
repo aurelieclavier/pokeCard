@@ -226,11 +226,9 @@ public class DataController {
 		try {
 			JsonNode rootCards = mapper.readTree(new URL(JSON_POKEMON_API_CARDS));
 			JsonNode cardNode = rootCards.path("cards");
-
 			if (cardNode.isArray()) {
 				for (JsonNode card : cardNode) {
 					JsonNode attack = card.path("attacks");
-
 					if (attack.isArray()) {
 						System.out.println("ATTACKS IS AN ARRAY !");
 						String attackName = attack.findPath("name").asText();
@@ -238,10 +236,8 @@ public class DataController {
 						String attackDamage = attack.findPath("damage").asText();
 						this.attakService.saveData(attackName, attackDescription, attackDamage);
 					}
-
 				}
 			}
-
 		} catch (Exception e) {
 			System.out.println(e);
 		}
@@ -249,17 +245,14 @@ public class DataController {
 
 	@GetMapping("data/card")
 	public void getDataCard() {
-
 		final ObjectMapper mapper = new ObjectMapper();
 		final String JSON_POKEMON_API_CARDS = "https://api.pokemontcg.io/v1/cards";
 
 		try {
 			JsonNode rootCards = mapper.readTree(new URL(JSON_POKEMON_API_CARDS));
 			JsonNode cardNode = rootCards.path("cards");
-
 			if (cardNode.isArray()) {
 				for (JsonNode card : cardNode) {
-
 					String code = card.path("id").asText();
 					String name = card.path("name").asText();
 					Integer nationalPokedexNumber = card.path("nationalPokedexNumber").asInt();
@@ -267,13 +260,26 @@ public class DataController {
 					Integer hp = card.path("hp").asInt();
 					Integer cardNumber = card.path("number").asInt();
 					String illustrator = card.path("artist").asText();
+					String rarity = card.path("rarity").asText();
+					String cardType = card.path("supertype").asText();
+					String cardSubtype = card.path("subtype").asText();
+					String cardSet = card.path("set").asText();
+					Integer retreat = card.path("convertedRetreatCost").asInt();
 
-					this.cardService.saveData(code, name, nationalPokedexNumber, image, hp, cardNumber, illustrator);
+					int tiretPosition = code.indexOf("-");
+					String setId;
+					if (tiretPosition != -1) {
+						setId = code.substring(0, tiretPosition);
+					} else {
+						setId = code;
+					}
+
+					this.cardService.saveData(code, setId, name, nationalPokedexNumber, image, hp, cardNumber,
+							illustrator, rarity, cardType, cardSubtype, cardSet, retreat);
 				}
 			}
 		} catch (Exception e) {
-			System.out.println("Erreur de récupération des cartes");
+			System.out.println("Erreur de récupération des cartes : " + e);
 		}
-
 	}
 }
