@@ -10,5 +10,5 @@ import fr.pokecard.collection.business.entity.Retreat;
  */
 @Repository
 public interface RetreatRepository extends JpaRepository<Retreat, Integer> {
-
+	Retreat findOneByValue(final Integer value);
 }
