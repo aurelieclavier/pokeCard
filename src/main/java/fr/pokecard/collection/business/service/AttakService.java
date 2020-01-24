@@ -18,12 +18,18 @@ public class AttakService {
 		return this.attakRepository.findAll();
 	}
 
-	public void saveData(String name, String description, String damage) {
-		Attack attack = this.attakRepository.findOneByName(name);
+	public int saveData(String name, String description, String damage) {
+		int j = 0;
+		Attack attack = this.attakRepository.findOneByNameAndDamageAndDescription(name, damage, description);
+		j = 1;
 		if (attack == null) {
 			Attack newAttack = new Attack(name, description, damage);
 			this.attakRepository.save(newAttack);
+		} else {
+			System.out.println(name + " NAME");
+			System.out.println(damage + " DAMAGE");
 		}
+		return j;
 	}
 
 }
