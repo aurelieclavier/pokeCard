@@ -91,33 +91,38 @@ public class DataController {
 	 * OK !!!
 	 */
 	@GetMapping("data/set")
-	public void getDataSet() {
-		final ObjectMapper mapper = new ObjectMapper();
-		final String JSON_POKEMON_API_SET = "https://api.pokemontcg.io/v1/sets";
+	public void getDataSet(@RequestParam(defaultValue = "page") String page,
+			@RequestParam(defaultValue = "pageSize") String pageSize) {
 
-		try {
-			JsonNode rootsets = mapper.readTree(new URL(JSON_POKEMON_API_SET));
-			JsonNode setNode = rootsets.path("sets");
-			if (setNode.isArray()) {
-				for (JsonNode set : setNode) {
-					String code = set.findPath("code").asText();
-					String ptcgoCode = set.findPath("ptcgoCode").asText();
-					String name = set.findPath("name").asText();
-					Integer totalCards = set.findPath("totalCards").asInt();
-					String symbol = set.findPath("symbolUrl").asText();
-					String logo = set.findPath("logoUrl").asText();
-					String serie = set.findPath("series").asText();
-					String releaseDate = set.findPath("releaseDate").asText();
-					// Define a format for date object
-					DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
-					// convert String to LocalDateTime
-					LocalDate localDate = LocalDate.parse(releaseDate, formatter);
-					this.cardSetService.saveData(name, totalCards, localDate, symbol, logo, code, ptcgoCode, serie);
+		int max = 12;
+		for (int i = 1; i <= max; i++) {
+			final ObjectMapper mapper = new ObjectMapper();
+			final String JSON_POKEMON_API_SET = "https://api.pokemontcg.io/v1/sets?page=" + i + "&pageSize=" + pageSize;
+
+			try {
+				JsonNode rootsets = mapper.readTree(new URL(JSON_POKEMON_API_SET));
+				JsonNode setNode = rootsets.path("sets");
+				if (setNode.isArray()) {
+					for (JsonNode set : setNode) {
+						String code = set.findPath("code").asText();
+						String ptcgoCode = set.findPath("ptcgoCode").asText();
+						String name = set.findPath("name").asText();
+						Integer totalCards = set.findPath("totalCards").asInt();
+						String symbol = set.findPath("symbolUrl").asText();
+						String logo = set.findPath("logoUrl").asText();
+						String serie = set.findPath("series").asText();
+						String releaseDate = set.findPath("releaseDate").asText();
+						// Define a format for date object
+						DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+						// convert String to LocalDateTime
+						LocalDate localDate = LocalDate.parse(releaseDate, formatter);
+						this.cardSetService.saveData(name, totalCards, localDate, symbol, logo, code, ptcgoCode, serie);
+					}
 				}
+			} catch (Exception e) {
+				System.out.println("Erreur de récupération des sets");
+				System.out.println(e);
 			}
-		} catch (Exception e) {
-			System.out.println("Erreur de récupération des sets");
-			System.out.println(e);
 		}
 	}
 
