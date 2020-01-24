@@ -44,14 +44,13 @@ public class Pokemon implements Serializable {
 	/**
 	 *
 	 */
-	@Column(name = "NAME_FR")
-	private String nameFr;
+	private Integer number;
 
 	/**
 	 *
 	 */
-	@Column(name = "NAME_EN")
-	private String nameEn;
+	@Column(name = "NAME_FR")
+	private String nameFr;
 
 	/**
 	 *
@@ -62,12 +61,8 @@ public class Pokemon implements Serializable {
 	/**
 	 *
 	 */
-	private Integer level;
-
-	/**
-	 *
-	 */
-	private Float weight;
+	@Column(name = "NAME_EN")
+	private String nameEn;
 
 	/**
 	 *
@@ -77,7 +72,7 @@ public class Pokemon implements Serializable {
 	/**
 	 *
 	 */
-	private Integer number;
+	private Float weight;
 
 	/**
 	 *
@@ -108,15 +103,14 @@ public class Pokemon implements Serializable {
 	@OneToMany(mappedBy = "pokemonLowLevel")
 	private List<Evolution> evolution = new ArrayList<>();
 
-	public Pokemon(Integer id, String nameFr, String nameEn, String nameJp, Integer level, Float weight, Float height,
-			Integer number, String generation, List<Card> cards, List<Power> powers, List<Type> typesPokemon,
+	public Pokemon(Integer id, String nameFr, String nameEn, String nameJp, Float weight, Float height, Integer number,
+			String generation, List<Card> cards, List<Power> powers, List<Type> typesPokemon,
 			List<Evolution> evolution) {
 		super();
 		this.id = id;
 		this.nameFr = nameFr;
 		this.nameEn = nameEn;
 		this.nameJp = nameJp;
-		this.level = level;
 		this.weight = weight;
 		this.height = height;
 		this.number = number;
@@ -157,14 +151,6 @@ public class Pokemon implements Serializable {
 
 	public void setNameJp(String nameJp) {
 		this.nameJp = nameJp;
-	}
-
-	public Integer getLevel() {
-		return this.level;
-	}
-
-	public void setLevel(Integer level) {
-		this.level = level;
 	}
 
 	public Float getWeight() {
