@@ -21,4 +21,8 @@ public class PokemonService {
 	public Pokemon getPokemonById(Integer id) {
 		return this.pokemonRepository.findOneById(id);
 	}
+
+	public void saveData() {
+
+	}
 }
