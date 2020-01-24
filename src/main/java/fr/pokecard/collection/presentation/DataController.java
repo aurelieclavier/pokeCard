@@ -64,14 +64,11 @@ public class DataController {
 	@GetMapping("data/serie")
 	public void getDataSerie(@RequestParam(defaultValue = "page") String page,
 			@RequestParam(defaultValue = "pageSize") String pageSize) {
-
 		int max = 12;
 		for (int i = 1; i <= max; i++) {
-
 			final ObjectMapper mapper = new ObjectMapper();
 			final String JSON_POKEMON_API_SERIE = "https://api.pokemontcg.io/v1/sets?page=" + i + "&pageSize="
 					+ pageSize;
-
 			try {
 				JsonNode rootsets = mapper.readTree(new URL(JSON_POKEMON_API_SERIE));
 				JsonNode setNode = rootsets.path("sets");
@@ -93,12 +90,10 @@ public class DataController {
 	@GetMapping("data/set")
 	public void getDataSet(@RequestParam(defaultValue = "page") String page,
 			@RequestParam(defaultValue = "pageSize") String pageSize) {
-
 		int max = 12;
 		for (int i = 1; i <= max; i++) {
 			final ObjectMapper mapper = new ObjectMapper();
 			final String JSON_POKEMON_API_SET = "https://api.pokemontcg.io/v1/sets?page=" + i + "&pageSize=" + pageSize;
-
 			try {
 				JsonNode rootsets = mapper.readTree(new URL(JSON_POKEMON_API_SET));
 				JsonNode setNode = rootsets.path("sets");
@@ -120,8 +115,7 @@ public class DataController {
 					}
 				}
 			} catch (Exception e) {
-				System.out.println("Erreur de récupération des sets");
-				System.out.println(e);
+				System.out.println("Erreur de récupération des sets " + e);
 			}
 		}
 	}
@@ -133,7 +127,6 @@ public class DataController {
 	public void getDataRetreat() {
 		final ObjectMapper mapper = new ObjectMapper();
 		final String JSON_POKEMON_API_TYPES = "https://api.pokemontcg.io/v1/cards";
-
 		try {
 			JsonNode rootRetreats = mapper.readTree(new URL(JSON_POKEMON_API_TYPES));
 			JsonNode retreatNode = rootRetreats.path("cards");
@@ -154,15 +147,12 @@ public class DataController {
 	public void getDataType() {
 		final ObjectMapper mapper = new ObjectMapper();
 		final String JSON_POKEMON_API_TYPES = "https://api.pokemontcg.io/v1/types";
-
 		try {
 			JsonNode rootTypes = mapper.readTree(new URL(JSON_POKEMON_API_TYPES));
 			JsonNode typeNode = rootTypes.path("types");
-
 			for (JsonNode type : typeNode) {
 				this.typeService.saveData(type.toString().substring(1, type.toString().length() - 1));
 			}
-
 		} catch (Exception e) {
 			System.out.println(e + "Erreur de récupération des types");
 		}
@@ -175,15 +165,12 @@ public class DataController {
 	public void getDataSuperType() {
 		final ObjectMapper mapper = new ObjectMapper();
 		final String JSON_POKEMON_API_SUPERTYPES = "https://api.pokemontcg.io/v1/supertypes";
-
 		try {
 			JsonNode rootSuperTypes = mapper.readTree(new URL(JSON_POKEMON_API_SUPERTYPES));
 			JsonNode superTypeNode = rootSuperTypes.path("supertypes");
-
 			for (JsonNode superType : superTypeNode) {
 				this.cardTypeService.saveData(superType.toString().substring(1, superType.toString().length() - 1));
 			}
-
 		} catch (Exception e) {
 			System.out.println("Erreur de récupération des supers types");
 		}
@@ -231,6 +218,9 @@ public class DataController {
 		}
 	}
 
+	/*
+	 * OK !!!
+	 */
 	@GetMapping("data/attack")
 	public void getDataAttack(@RequestParam(defaultValue = "page") String page,
 			@RequestParam(defaultValue = "pageSize") String pageSize) {
@@ -257,32 +247,22 @@ public class DataController {
 				System.out.println("Erreur de récupération des attaques : " + e);
 			}
 		}
+
 	}
 
 	@GetMapping("data/card")
 	public void getDataCard(@RequestParam(defaultValue = "page") String page,
 			@RequestParam(defaultValue = "pageSize") String pageSize) {
 
-		page = "page";
-		pageSize = "pageSize";
-
 		final ObjectMapper mapper = new ObjectMapper();
-		final String JSON_POKEMON_API_CARDS = "https://api.pokemontcg.io/v1/cards?" + page + "=1&" + pageSize + "=1000";
-
-		System.out.println(JSON_POKEMON_API_CARDS);
+		final String JSON_POKEMON_API_CARDS = "https://api.pokemontcg.io/v1/cards?page=" + page + "&pageSize="
+				+ pageSize;
 
 		try {
 			JsonNode rootCards = mapper.readTree(new URL(JSON_POKEMON_API_CARDS));
 			JsonNode cardNode = rootCards.path("cards");
-			int i = 0;
-			int j = 0;
-			int h = 0;
 			if (cardNode.isArray()) {
-
 				for (JsonNode card : cardNode) {
-
-					i++;
-
 					String code = card.path("id").asText();
 					String name = card.path("name").asText();
 					Integer nationalPokedexNumber = card.path("nationalPokedexNumber").asInt();
@@ -304,14 +284,9 @@ public class DataController {
 						setId = code;
 					}
 
-					j = this.cardService.saveData(code, setId, name, nationalPokedexNumber, image, hp, cardNumber,
+					this.cardService.saveData(code, setId, name, nationalPokedexNumber, image, hp, cardNumber,
 							illustrator, rarity, cardType, cardSubtype, cardSet, retreat);
-					h += j;
 				}
-				System.out.println(cardNode.size() + " TOTAL !!");
-				System.out.println(i + "total I");
-				System.out.println(h + "total H");
-
 			}
 		} catch (Exception e) {
 			System.out.println("Erreur de récupération des cartes : " + e);
