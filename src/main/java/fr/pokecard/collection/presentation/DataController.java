@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -219,40 +220,57 @@ public class DataController {
 	}
 
 	@GetMapping("data/attack")
-	public void getDataAttack() {
-		final ObjectMapper mapper = new ObjectMapper();
-		final String JSON_POKEMON_API_CARDS = "https://api.pokemontcg.io/v1/cards";
-
-		try {
-			JsonNode rootCards = mapper.readTree(new URL(JSON_POKEMON_API_CARDS));
-			JsonNode cardNode = rootCards.path("cards");
-			if (cardNode.isArray()) {
-				for (JsonNode card : cardNode) {
-					JsonNode attack = card.path("attacks");
-					if (attack.isArray()) {
-						System.out.println("ATTACKS IS AN ARRAY !");
-						String attackName = attack.findPath("name").asText();
-						String attackDescription = attack.findPath("text").asText();
-						String attackDamage = attack.findPath("damage").asText();
-						this.attakService.saveData(attackName, attackDescription, attackDamage);
+	public void getDataAttack(@RequestParam(defaultValue = "page") String page,
+			@RequestParam(defaultValue = "pageSize") String pageSize) {
+		int max = 12;
+		for (int i = 1; i <= max; i++) {
+			final ObjectMapper mapper = new ObjectMapper();
+			final String JSON_POKEMON_API_CARDS = "https://api.pokemontcg.io/v1/cards?page=" + i + "&pageSize="
+					+ pageSize;
+			try {
+				JsonNode rootCards = mapper.readTree(new URL(JSON_POKEMON_API_CARDS));
+				JsonNode cardNode = rootCards.path("cards");
+				if (cardNode.isArray()) {
+					for (JsonNode card : cardNode) {
+						JsonNode attack = card.path("attacks");
+						if (attack.isArray()) {
+							String attackName = attack.findPath("name").asText();
+							String attackDescription = attack.findPath("text").asText();
+							String attackDamage = attack.findPath("damage").asText();
+							this.attakService.saveData(attackName, attackDescription, attackDamage);
+						}
 					}
 				}
+			} catch (Exception e) {
+				System.out.println("Erreur de récupération des attaques : " + e);
 			}
-		} catch (Exception e) {
-			System.out.println(e);
 		}
 	}
 
 	@GetMapping("data/card")
-	public void getDataCard() {
+	public void getDataCard(@RequestParam(defaultValue = "page") String page,
+			@RequestParam(defaultValue = "pageSize") String pageSize) {
+
+		page = "page";
+		pageSize = "pageSize";
+
 		final ObjectMapper mapper = new ObjectMapper();
-		final String JSON_POKEMON_API_CARDS = "https://api.pokemontcg.io/v1/cards";
+		final String JSON_POKEMON_API_CARDS = "https://api.pokemontcg.io/v1/cards?" + page + "=1&" + pageSize + "=1000";
+
+		System.out.println(JSON_POKEMON_API_CARDS);
 
 		try {
 			JsonNode rootCards = mapper.readTree(new URL(JSON_POKEMON_API_CARDS));
 			JsonNode cardNode = rootCards.path("cards");
+			int i = 0;
+			int j = 0;
+			int h = 0;
 			if (cardNode.isArray()) {
+
 				for (JsonNode card : cardNode) {
+
+					i++;
+
 					String code = card.path("id").asText();
 					String name = card.path("name").asText();
 					Integer nationalPokedexNumber = card.path("nationalPokedexNumber").asInt();
@@ -274,9 +292,14 @@ public class DataController {
 						setId = code;
 					}
 
-					this.cardService.saveData(code, setId, name, nationalPokedexNumber, image, hp, cardNumber,
+					j = this.cardService.saveData(code, setId, name, nationalPokedexNumber, image, hp, cardNumber,
 							illustrator, rarity, cardType, cardSubtype, cardSet, retreat);
+					h += j;
 				}
+				System.out.println(cardNode.size() + " TOTAL !!");
+				System.out.println(i + "total I");
+				System.out.println(h + "total H");
+
 			}
 		} catch (Exception e) {
 			System.out.println("Erreur de récupération des cartes : " + e);
