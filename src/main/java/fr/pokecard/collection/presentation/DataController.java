@@ -62,21 +62,28 @@ public class DataController {
 	 * OK !!!
 	 */
 	@GetMapping("data/serie")
-	public void getDataSerie() {
-		final ObjectMapper mapper = new ObjectMapper();
-		final String JSON_POKEMON_API_SERIE = "https://api.pokemontcg.io/v1/sets";
+	public void getDataSerie(@RequestParam(defaultValue = "page") String page,
+			@RequestParam(defaultValue = "pageSize") String pageSize) {
 
-		try {
-			JsonNode rootsets = mapper.readTree(new URL(JSON_POKEMON_API_SERIE));
-			JsonNode setNode = rootsets.path("sets");
-			if (setNode.isArray()) {
-				for (JsonNode set : setNode) {
-					String serie = set.findPath("series").asText();
-					this.cardSerieService.saveData(serie);
+		int max = 12;
+		for (int i = 1; i <= max; i++) {
+
+			final ObjectMapper mapper = new ObjectMapper();
+			final String JSON_POKEMON_API_SERIE = "https://api.pokemontcg.io/v1/sets?page=" + i + "&pageSize="
+					+ pageSize;
+
+			try {
+				JsonNode rootsets = mapper.readTree(new URL(JSON_POKEMON_API_SERIE));
+				JsonNode setNode = rootsets.path("sets");
+				if (setNode.isArray()) {
+					for (JsonNode set : setNode) {
+						String serie = set.findPath("series").asText();
+						this.cardSerieService.saveData(serie);
+					}
 				}
+			} catch (Exception e) {
+				System.out.println("Erreur de récupération des series");
 			}
-		} catch (Exception e) {
-			System.out.println("Erreur de récupération des series");
 		}
 	}
 
