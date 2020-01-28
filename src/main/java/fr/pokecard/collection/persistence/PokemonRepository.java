@@ -13,4 +13,6 @@ public interface PokemonRepository extends JpaRepository<Pokemon, Integer> {
 
 	Pokemon findOneById(final Integer id);
 
+	Pokemon findOneByNumberAndNameEn(Integer number, String name);
+
 }

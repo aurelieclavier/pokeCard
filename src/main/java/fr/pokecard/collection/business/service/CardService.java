@@ -9,12 +9,14 @@ import fr.pokecard.collection.business.entity.Card;
 import fr.pokecard.collection.business.entity.CardSet;
 import fr.pokecard.collection.business.entity.CardSubtype;
 import fr.pokecard.collection.business.entity.CardType;
+import fr.pokecard.collection.business.entity.Pokemon;
 import fr.pokecard.collection.business.entity.Rarity;
 import fr.pokecard.collection.business.entity.Retreat;
 import fr.pokecard.collection.persistence.CardRepository;
 import fr.pokecard.collection.persistence.CardSetRepository;
 import fr.pokecard.collection.persistence.CardSubtypeRepository;
 import fr.pokecard.collection.persistence.CardTypeRepository;
+import fr.pokecard.collection.persistence.PokemonRepository;
 import fr.pokecard.collection.persistence.RarityRepository;
 import fr.pokecard.collection.persistence.RetreatRepository;
 
@@ -40,6 +42,9 @@ public class CardService {
 	private CardSubtypeRepository cardSubtypeRepository;
 
 	@Autowired
+	private PokemonRepository pokemonRepository;
+
+	@Autowired
 	private RarityService rarityService;
 
 	@Autowired
@@ -60,6 +65,10 @@ public class CardService {
 
 	public Card getOneById(Integer id) {
 		return this.cardRepository.findOneById(id);
+	}
+
+	public Card getOneByCode(String code) {
+		return this.cardRepository.findOneByCode(code);
 	}
 
 	public void saveData(String code, String setId, String name, Integer nationalPokedexNumber, String image,
@@ -120,6 +129,18 @@ public class CardService {
 			System.out.println(cardSet + " cardSet");
 			System.out.println(retreat + " retreat");
 			System.out.println("----------------------------------------------------");
+		}
+	}
+
+	public void cardHasPokemon(String code, Integer number, String name) {
+		Card card = this.cardRepository.findOneByCode(code);
+		Pokemon pokemon = this.pokemonRepository.findOneByNumberAndNameEn(number, name);
+
+		if (card != null && pokemon != null) {
+			if (!card.getPokemons().contains(pokemon)) {
+				card.getPokemons().add(pokemon);
+				this.cardRepository.save(card);
+			}
 		}
 	}
 }

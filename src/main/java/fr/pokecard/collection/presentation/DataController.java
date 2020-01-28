@@ -18,6 +18,7 @@ import fr.pokecard.collection.business.service.CardService;
 import fr.pokecard.collection.business.service.CardSetService;
 import fr.pokecard.collection.business.service.CardSubtypeService;
 import fr.pokecard.collection.business.service.CardTypeService;
+import fr.pokecard.collection.business.service.PokemonService;
 import fr.pokecard.collection.business.service.RarityService;
 import fr.pokecard.collection.business.service.RetreatService;
 import fr.pokecard.collection.business.service.TypeService;
@@ -51,6 +52,9 @@ public class DataController {
 
 	@Autowired
 	private RetreatService retreatService;
+
+	@Autowired
+	private PokemonService pokemonService;
 
 	/**
 	 * Default constructor
@@ -290,6 +294,38 @@ public class DataController {
 			}
 		} catch (Exception e) {
 			System.out.println("Erreur de récupération des cartes : " + e);
+		}
+	}
+
+	@GetMapping("data/cardhaspokemon")
+	public void getDataCardHasPokemon(@RequestParam(defaultValue = "page") String page,
+			@RequestParam(defaultValue = "pageSize") String pageSize) {
+
+		final ObjectMapper mapper = new ObjectMapper();
+		final String JSON_POKEMON_API_CARDS = "https://api.pokemontcg.io/v1/cards?page=" + page + "&pageSize="
+				+ pageSize;
+
+//		final String JSON_POKEMON_API_CARDS = "https://api.pokemontcg.io/v1/cards/dp6-90";
+		System.out.println(JSON_POKEMON_API_CARDS + " API");
+		try {
+			JsonNode rootCards = mapper.readTree(new URL(JSON_POKEMON_API_CARDS));
+			JsonNode cardNode = rootCards.path("cards");
+			if (cardNode.isArray()) {
+				for (JsonNode card : cardNode) {
+
+					String cardType = card.path("supertype").asText();
+					String code = card.path("id").asText();
+					String name = card.path("name").asText();
+					Integer numberPokemon = card.path("nationalPokedexNumber").asInt();
+
+					if (cardType.equals("Pokémon")) {
+						this.cardService.cardHasPokemon(code, numberPokemon, name);
+					}
+
+				}
+			}
+		} catch (Exception e) {
+			System.out.println("Erreur de récupération id pokemon et id cartes " + e);
 		}
 	}
 }

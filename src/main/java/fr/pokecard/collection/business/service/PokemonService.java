@@ -22,7 +22,7 @@ public class PokemonService {
 		return this.pokemonRepository.findOneById(id);
 	}
 
-	public void saveData() {
-
+	public Pokemon getPokemonByName(Integer number, String name) {
+		return this.pokemonRepository.findOneByNumberAndNameEn(number, name);
 	}
 }
