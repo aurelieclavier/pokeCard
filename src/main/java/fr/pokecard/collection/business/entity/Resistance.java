@@ -41,7 +41,7 @@ public class Resistance implements Serializable {
 	/**
 	 *
 	 */
-	private Integer rate;
+	private String rate;
 
 	/**
 	 * Plusieurs carte peuvent avoir la même résistance;
@@ -58,12 +58,16 @@ public class Resistance implements Serializable {
 	@JsonIgnore
 	private List<Type> typesResistance;
 
-	public Resistance(Integer id, Integer rate, List<Card> cards, List<Type> typesResistance) {
+	public Resistance(Integer id, String rate, List<Card> cards, List<Type> typesResistance) {
 		super();
 		this.id = id;
 		this.rate = rate;
 		this.cards = cards;
 		this.typesResistance = typesResistance;
+	}
+
+	public Resistance(String rate) {
+		this.rate = rate;
 	}
 
 	public Integer getId() {
@@ -74,11 +78,11 @@ public class Resistance implements Serializable {
 		this.id = id;
 	}
 
-	public Integer getRate() {
+	public String getRate() {
 		return this.rate;
 	}
 
-	public void setRate(Integer rate) {
+	public void setRate(String rate) {
 		this.rate = rate;
 	}
 
