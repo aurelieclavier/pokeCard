@@ -17,4 +17,12 @@ public class WeaknessService {
 	public List<Weakness> getALl() {
 		return this.weaknessRepository.findAll();
 	}
+
+	public void saveData(String rate) {
+		Weakness weakness = this.weaknessRepository.findOneByRate(rate);
+		if (weakness == null) {
+			Weakness newWeakness = new Weakness(rate);
+			this.weaknessRepository.save(newWeakness);
+		}
+	}
 }
