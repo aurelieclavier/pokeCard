@@ -16,5 +16,7 @@ public interface AttakRepository extends JpaRepository<Attack, Integer> {
 
 	Attack findOneByDamage(final String damage);
 
+	Attack findOneByNameAndDamage(final String name, final String damage);
+
 	Attack findOneByNameAndDamageAndDescription(final String name, final String damage, final String description);
 }

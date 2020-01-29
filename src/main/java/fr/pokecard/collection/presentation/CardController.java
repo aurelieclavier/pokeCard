@@ -20,7 +20,7 @@ import fr.pokecard.collection.business.service.CardService;
 import fr.pokecard.collection.business.service.CardSetService;
 import fr.pokecard.collection.business.service.CardTypeService;
 import fr.pokecard.collection.business.service.RarityService;
-import fr.pokecard.collection.business.service.ResistenceService;
+import fr.pokecard.collection.business.service.ResistanceService;
 import fr.pokecard.collection.business.service.RetreatService;
 import fr.pokecard.collection.business.service.WeaknessService;
 
@@ -58,7 +58,7 @@ public class CardController {
 	private WeaknessService weaknessService;
 
 	@Autowired
-	private ResistenceService resistenceService;
+	private ResistanceService resistanceService;
 
 	@Autowired
 	private RetreatService retreatService;
@@ -103,7 +103,7 @@ public class CardController {
 
 	@GetMapping("/cards/resistence")
 	List<Resistance> getAllResistence() {
-		return this.resistenceService.getAll();
+		return this.resistanceService.getAll();
 	}
 
 	@GetMapping("/cards/retreat")

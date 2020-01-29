@@ -125,14 +125,6 @@ public class Attack implements Serializable {
 		this.damage = damage;
 	}
 
-	public List<Type> getTypes() {
-		return this.typesAttack;
-	}
-
-	public void setTypes(List<Type> types) {
-		this.typesAttack = types;
-	}
-
 	public List<Type> getTypesAttack() {
 		return this.typesAttack;
 	}

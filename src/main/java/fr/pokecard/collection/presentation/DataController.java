@@ -359,4 +359,64 @@ public class DataController {
 			System.out.println("Erreur de récupération id pokemon et id cartes " + e);
 		}
 	}
+
+	@GetMapping("data/attackhastype")
+	public void getDataAttackHasType(@RequestParam(defaultValue = "page") String page,
+			@RequestParam(defaultValue = "pageSize") String pageSize) {
+
+//		int max = 12;
+//		for (int i = 1; i <= max; i++) {
+		final ObjectMapper mapper = new ObjectMapper();
+		final String JSON_POKEMON_API_CARDS = "https://api.pokemontcg.io/v1/cards?page=" + page + "&pageSize="
+				+ pageSize;
+//		final String JSON_POKEMON_API_TYPES = "https://api.pokemontcg.io/v1/types";
+
+		try {
+			JsonNode rootCards = mapper.readTree(new URL(JSON_POKEMON_API_CARDS));
+//			JsonNode rootTypes = mapper.readTree(new URL(JSON_POKEMON_API_TYPES));
+			JsonNode cardNode = rootCards.path("cards");
+//			JsonNode typeNode = rootTypes.path("types");
+
+			if (cardNode.isArray()) {
+				for (JsonNode card : cardNode) {
+
+					JsonNode attack = card.path("attacks");
+
+//					System.out.println("COST : " + cost);
+					System.out.println("ATTACK : " + attack);
+
+					if (attack.isArray()) {
+
+						System.out.println("ATTACK IS ARRAY");
+
+						JsonNode cost = attack.path("cost");
+						System.out.println("COST : " + cost.toString());
+
+						if (cost.isArray()) {
+
+							System.out.println("COST IS ARRAY");
+
+							for (JsonNode type : cost) {
+
+								System.out.println(type.toString());
+								String name = attack.findPath("name").asText();
+								String damage = attack.findPath("damage").asText();
+								System.out.println("NAME " + name);
+								System.out.println("DAMAGE " + damage);
+								System.out.println("COST : " + type);
+//								this.attakService.attackHasType(cost, name, damage);
+
+							}
+
+						}
+
+					}
+				}
+			}
+		} catch (Exception e) {
+			System.out.println("Erreur de récupération des attaques : " + e);
+		}
+	}
+
 }
+//}
