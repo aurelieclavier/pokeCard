@@ -11,4 +11,6 @@ import fr.pokecard.collection.business.entity.Weakness;
 @Repository
 public interface WeaknessRepository extends JpaRepository<Weakness, Integer> {
 
+	Weakness findOneByRate(final String rate);
+
 }
