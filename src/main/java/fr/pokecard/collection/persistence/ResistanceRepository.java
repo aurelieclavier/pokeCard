@@ -9,6 +9,6 @@ import fr.pokecard.collection.business.entity.Resistance;
  *
  */
 @Repository
-public interface ResistenceRepository extends JpaRepository<Resistance, Integer> {
-
+public interface ResistanceRepository extends JpaRepository<Resistance, Integer> {
+	Resistance findOneByRate(final String rate);
 }
