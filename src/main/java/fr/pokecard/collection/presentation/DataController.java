@@ -23,6 +23,7 @@ import fr.pokecard.collection.business.service.RarityService;
 import fr.pokecard.collection.business.service.ResistanceService;
 import fr.pokecard.collection.business.service.RetreatService;
 import fr.pokecard.collection.business.service.TypeService;
+import fr.pokecard.collection.business.service.WeaknessService;
 
 @RestController
 public class DataController {
@@ -59,6 +60,9 @@ public class DataController {
 
 	@Autowired
 	private ResistanceService resistanceService;
+
+	@Autowired
+	private WeaknessService weaknessService;
 
 	/**
 	 * Default constructor
@@ -304,15 +308,39 @@ public class DataController {
 							String rate = resistance.findPath("value").asText();
 							String type = resistance.findPath("type").asText();
 
-//							System.out.println("RATE " + rate);
-//							System.out.println("TYPE " + type);
-
 							this.resistanceService.saveResistanceHasType(rate, type);
 						}
 					}
 				}
 			} catch (Exception e) {
 				System.out.println("Erreur de récupération des résistances. " + e);
+			}
+		}
+	}
+
+	@GetMapping("data/weakness")
+	public void getDataWeakness(@RequestParam(defaultValue = "page") String page,
+			@RequestParam(defaultValue = "pageSize") String pageSize) {
+		int max = 12;
+		for (int i = 1; i <= max; i++) {
+			final ObjectMapper mapper = new ObjectMapper();
+			final String JSON_POKEMON_API_CARDS = "https://api.pokemontcg.io/v1/cards?page=" + i + "&pageSize="
+					+ pageSize;
+
+			try {
+				JsonNode rootCards = mapper.readTree(new URL(JSON_POKEMON_API_CARDS));
+				JsonNode cardNode = rootCards.path("cards");
+				if (cardNode.isArray()) {
+					for (JsonNode card : cardNode) {
+						JsonNode weakness = card.path("weaknesses");
+						if (weakness.isArray()) {
+							String weaknesses = weakness.findPath("value").asText();
+							this.weaknessService.saveData(weaknesses);
+						}
+					}
+				}
+			} catch (Exception e) {
+				System.out.println("Erreur de récupération des faiblesses. " + e);
 			}
 		}
 	}
