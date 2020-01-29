@@ -41,7 +41,7 @@ public class Weakness implements Serializable {
 	/**
 	 *
 	 */
-	private Integer rate;
+	private String rate;
 
 	/**
 	 * Plusieurs carte peuvent avoir la même faiblesse;
@@ -58,12 +58,16 @@ public class Weakness implements Serializable {
 	@JsonIgnore
 	private List<Type> typesWeakness;
 
-	public Weakness(Integer id, Integer rate, List<Card> cards, List<Type> typesWeakness) {
+	public Weakness(Integer id, String rate, List<Card> cards, List<Type> typesWeakness) {
 		super();
 		this.id = id;
 		this.rate = rate;
 		this.cards = cards;
 		this.typesWeakness = typesWeakness;
+	}
+
+	public Weakness(String rate) {
+		this.rate = rate;
 	}
 
 	public Integer getId() {
@@ -74,11 +78,11 @@ public class Weakness implements Serializable {
 		this.id = id;
 	}
 
-	public Integer getRate() {
+	public String getRate() {
 		return this.rate;
 	}
 
-	public void setRate(Integer rate) {
+	public void setRate(String rate) {
 		this.rate = rate;
 	}
 
