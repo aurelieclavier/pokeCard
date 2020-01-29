@@ -285,6 +285,38 @@ public class DataController {
 		}
 	}
 
+	@GetMapping("data/resistanceHasType")
+	public void getDataResistanceHasType(@RequestParam(defaultValue = "page") String page,
+			@RequestParam(defaultValue = "pageSize") String pageSize) {
+		int max = 12;
+		for (int i = 1; i <= max; i++) {
+			final ObjectMapper mapper = new ObjectMapper();
+			final String JSON_POKEMON_API_CARDS = "https://api.pokemontcg.io/v1/cards?page=" + i + "&pageSize="
+					+ pageSize;
+
+			try {
+				JsonNode rootCards = mapper.readTree(new URL(JSON_POKEMON_API_CARDS));
+				JsonNode cardNode = rootCards.path("cards");
+				if (cardNode.isArray()) {
+					for (JsonNode card : cardNode) {
+						JsonNode resistance = card.path("resistances");
+						if (resistance.isArray()) {
+							String rate = resistance.findPath("value").asText();
+							String type = resistance.findPath("type").asText();
+
+//							System.out.println("RATE " + rate);
+//							System.out.println("TYPE " + type);
+
+							this.resistanceService.saveResistanceHasType(rate, type);
+						}
+					}
+				}
+			} catch (Exception e) {
+				System.out.println("Erreur de récupération des résistances. " + e);
+			}
+		}
+	}
+
 	@GetMapping("data/card")
 	public void getDataCard(@RequestParam(defaultValue = "page") String page,
 			@RequestParam(defaultValue = "pageSize") String pageSize) {
