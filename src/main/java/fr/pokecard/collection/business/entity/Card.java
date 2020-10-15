@@ -112,16 +112,16 @@ public class Card implements Serializable {
 	private Retreat retreat;
 
 	/**
-	 * Création de la table de jointure CARD_has_RESISTENCE; 1 résistance peut être
+	 * Création de la table de jointure CARD_has_RESISTANCE; 1 résistance peut être
 	 * attribuée à plusieurs cartes;
 	 */
 	@ManyToMany
-	@JoinTable(name = "CARD_has_RESISTENCE")
+	@JoinTable(name = "CARD_has_RESISTANCE")
 	@JsonIgnore
 	private List<Resistance> resistances;
 
 	/**
-	 * Création de la table de jointure CARD_has_RESISTENCE; 1 résistance peut être
+	 * Création de la table de jointure CARD_has_WEAKNESS; 1 résistance peut être
 	 * attribuée à plusieurs cartes;
 	 */
 	@ManyToMany

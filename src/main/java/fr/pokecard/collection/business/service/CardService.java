@@ -12,6 +12,7 @@ import fr.pokecard.collection.business.entity.CardSubtype;
 import fr.pokecard.collection.business.entity.CardType;
 import fr.pokecard.collection.business.entity.Pokemon;
 import fr.pokecard.collection.business.entity.Rarity;
+import fr.pokecard.collection.business.entity.Resistance;
 import fr.pokecard.collection.business.entity.Retreat;
 import fr.pokecard.collection.persistence.AttackRepository;
 import fr.pokecard.collection.persistence.CardRepository;
@@ -20,6 +21,7 @@ import fr.pokecard.collection.persistence.CardSubtypeRepository;
 import fr.pokecard.collection.persistence.CardTypeRepository;
 import fr.pokecard.collection.persistence.PokemonRepository;
 import fr.pokecard.collection.persistence.RarityRepository;
+import fr.pokecard.collection.persistence.ResistanceRepository;
 import fr.pokecard.collection.persistence.RetreatRepository;
 
 @Service
@@ -48,6 +50,9 @@ public class CardService {
 
 	@Autowired
 	private AttackRepository attackRepository;
+
+	@Autowired
+	private ResistanceRepository resistanceRepository;
 
 	@Autowired
 	private RarityService rarityService;
@@ -163,6 +168,18 @@ public class CardService {
 		if (card != null && attack != null) {
 			if (!card.getAttacks().contains(attack)) {
 				card.getAttacks().add(attack);
+				this.cardRepository.save(card);
+			}
+		}
+	}
+
+	public void cardHasResistance(String name, String code, String rate) {
+		Card card = this.cardRepository.findOneByNameAndCode(name, code);
+		Resistance resistance = this.resistanceRepository.findOneByRate(rate);
+
+		if (card != null && resistance != null) {
+			if (!card.getResistances().contains(resistance)) {
+				card.getResistances().add(resistance);
 				this.cardRepository.save(card);
 			}
 		}

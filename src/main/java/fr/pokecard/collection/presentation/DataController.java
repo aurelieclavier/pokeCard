@@ -448,8 +448,7 @@ public class DataController {
 
 	/**
 	 *
-	 * @param page     < 13
-	 * @param pageSize = 1000 OK !!!
+	 * @param page < 13 OK !!!
 	 */
 	@GetMapping("data/attackhastype")
 	public void getDataAttackHasType(@RequestParam(defaultValue = "page") String page) {
@@ -487,6 +486,9 @@ public class DataController {
 		}
 	}
 
+	/**
+	 * @param page < 13 OK !!!
+	 */
 	@GetMapping("data/cardhasattack")
 	public void getDataCardHasAttack(@RequestParam(defaultValue = "page") String page) {
 
@@ -510,15 +512,6 @@ public class DataController {
 								String nameAttack = attacks.findPath("name").asText();
 								String damageAttack = attacks.findPath("damage").asText();
 								String descriptionAttack = attacks.findPath("text").asText();
-
-								System.out.println("\n");
-								System.out.println("___________________ DEBUG CONTROLLER __________________________");
-								System.out.println("NAMECARD : " + nameCard);
-								System.out.println("NAMEATTACK : " + nameAttack);
-								System.out.println("CODECARD : " + codeCard);
-								System.out.println("DESCRIPTIONATTACK : " + descriptionAttack);
-								System.out.println("___________________ END DEBUG CONTROLLER ______________________");
-								System.out.println("\n");
 								this.cardService.cardHasAttack(nameCard, codeCard, nameAttack, damageAttack,
 										descriptionAttack);
 							}
@@ -529,5 +522,45 @@ public class DataController {
 				System.out.println("Erreur de récupération des attaques et des types " + e);
 			}
 		}
+	}
+
+	@GetMapping("data/cardhasresistance")
+	public void getDataCardHasResistance(@RequestParam(defaultValue = "page") String page) {
+
+		int max = 13;
+		for (int i = 1; i <= max; i++) {
+			final ObjectMapper mapper = new ObjectMapper();
+			final String JSON_POKEMON_API_CARDS = "https://api.pokemontcg.io/v1/cards?page=" + i + "&pageSize=1000";
+
+			try {
+				JsonNode rootCards = mapper.readTree(new URL(JSON_POKEMON_API_CARDS));
+				JsonNode cardNode = rootCards.path("cards");
+				if (cardNode.isArray()) {
+					for (JsonNode card : cardNode) {
+						String nameCard = card.findPath("name").asText();
+						String codeCard = card.findPath("id").asText();
+						JsonNode resistance = card.path("resistances");
+
+						if (resistance.isArray()) {
+							for (JsonNode resistances : resistance) {
+								String rate = resistances.findPath("value").asText();
+
+								System.out.println("\n");
+								System.out.println("___________________ DEBUG CONTROLLER __________________________");
+								System.out.println("NAMECARD : " + nameCard);
+								System.out.println("TYPE : " + rate);
+								System.out.println("CODECARD : " + codeCard);
+								System.out.println("___________________ END DEBUG CONTROLLER ______________________");
+								System.out.println("\n");
+								this.cardService.cardHasResistance(nameCard, codeCard, rate);
+							}
+						}
+					}
+				}
+			} catch (Exception e) {
+				System.out.println("Erreur de récupération des attaques et des types " + e);
+			}
+		}
+
 	}
 }
