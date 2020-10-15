@@ -9,7 +9,7 @@ import fr.pokecard.collection.business.entity.Attack;
  *
  */
 @Repository
-public interface AttakRepository extends JpaRepository<Attack, Integer> {
+public interface AttackRepository extends JpaRepository<Attack, Integer> {
 	Attack findOneByName(final String name);
 
 	Attack findOneByDescription(final String description);

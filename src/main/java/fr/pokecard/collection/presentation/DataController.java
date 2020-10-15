@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import fr.pokecard.collection.business.service.AttakService;
+import fr.pokecard.collection.business.service.AttackService;
 import fr.pokecard.collection.business.service.CardSerieService;
 import fr.pokecard.collection.business.service.CardService;
 import fr.pokecard.collection.business.service.CardSetService;
@@ -50,7 +50,7 @@ public class DataController {
 	private CardSubtypeService cardSubtypeService;
 
 	@Autowired
-	private AttakService attakService;
+	private AttackService attackService;
 
 	@Autowired
 	private RetreatService retreatService;
@@ -102,7 +102,7 @@ public class DataController {
 	@GetMapping("data/set")
 	public void getDataSet(@RequestParam(defaultValue = "page") String page,
 			@RequestParam(defaultValue = "pageSize") String pageSize) {
-		int max = 12;
+		int max = 13;
 		for (int i = 1; i <= max; i++) {
 			final ObjectMapper mapper = new ObjectMapper();
 			final String JSON_POKEMON_API_SET = "https://api.pokemontcg.io/v1/sets?page=" + i + "&pageSize=" + pageSize;
@@ -133,7 +133,7 @@ public class DataController {
 	}
 
 	/*
-	 *
+	 * OK !!!
 	 */
 	@GetMapping("/data/retreat")
 	public void getDataRetreat() {
@@ -251,7 +251,7 @@ public class DataController {
 							String attackName = attack.findPath("name").asText();
 							String attackDescription = attack.findPath("text").asText();
 							String attackDamage = attack.findPath("damage").asText();
-							this.attakService.saveData(attackName, attackDescription, attackDamage);
+							this.attackService.saveData(attackName, attackDescription, attackDamage);
 						}
 					}
 				}
@@ -446,35 +446,88 @@ public class DataController {
 		}
 	}
 
+	/**
+	 *
+	 * @param page     < 13
+	 * @param pageSize = 1000 OK !!!
+	 */
 	@GetMapping("data/attackhastype")
-	public void getDataAttackHasType(@RequestParam(defaultValue = "page") String page,
-			@RequestParam(defaultValue = "pageSize") String pageSize) {
-		final ObjectMapper mapper = new ObjectMapper();
-		final String JSON_POKEMON_API_CARDS = "https://api.pokemontcg.io/v1/cards?page=" + page + "&pageSize="
-				+ pageSize;
+	public void getDataAttackHasType(@RequestParam(defaultValue = "page") String page) {
 
-		try {
-			JsonNode rootCards = mapper.readTree(new URL(JSON_POKEMON_API_CARDS));
-			JsonNode cardNode = rootCards.path("cards");
-			if (cardNode.isArray()) {
-				for (JsonNode card : cardNode) {
-					JsonNode attack = card.path("attacks");
-					if (attack.isArray()) {
+		int max = 13;
+		for (int i = 1; i <= max; i++) {
+			final ObjectMapper mapper = new ObjectMapper();
+			final String JSON_POKEMON_API_CARDS = "https://api.pokemontcg.io/v1/cards?page=" + i + "&pageSize=1000";
 
-						for (JsonNode attacks : attack) {
-							String type = attacks.path("cost").toString();
-							String name = attacks.findPath("name").asText();
-							String damage = attacks.findPath("damage").asText();
-							System.out.println("TYPE " + type);
-							System.out.println("NAME " + name);
-							System.out.println("DAMAGE " + damage);
-//							this.attakService.attackHasType(name, type, damage);
+			try {
+				JsonNode rootCards = mapper.readTree(new URL(JSON_POKEMON_API_CARDS));
+				JsonNode cardNode = rootCards.path("cards");
+				if (cardNode.isArray()) {
+					for (JsonNode card : cardNode) {
+						JsonNode attack = card.path("attacks");
+						if (attack.isArray()) {
+
+							for (JsonNode attacks : attack) {
+								JsonNode type = attacks.path("cost");
+								String name = attacks.findPath("name").asText();
+								String damage = attacks.findPath("damage").asText();
+								String description = attacks.findPath("text").asText();
+
+								for (JsonNode typeNode : type) {
+									String typeName = typeNode.asText();
+									this.attackService.attackHasType(name, typeName, damage, description);
+								}
+							}
 						}
 					}
 				}
+			} catch (Exception e) {
+				System.out.println("Erreur de récupération des attaques et des types " + e);
 			}
-		} catch (Exception e) {
-			System.out.println("Erreur de récupération des attaques. " + e);
+		}
+	}
+
+	@GetMapping("data/cardhasattack")
+	public void getDataCardHasAttack(@RequestParam(defaultValue = "page") String page) {
+
+		int max = 13;
+		for (int i = 1; i <= max; i++) {
+			final ObjectMapper mapper = new ObjectMapper();
+			final String JSON_POKEMON_API_CARDS = "https://api.pokemontcg.io/v1/cards?page=" + i + "&pageSize=1000";
+
+			try {
+				JsonNode rootCards = mapper.readTree(new URL(JSON_POKEMON_API_CARDS));
+				JsonNode cardNode = rootCards.path("cards");
+				if (cardNode.isArray()) {
+					for (JsonNode card : cardNode) {
+						String nameCard = card.findPath("name").asText();
+						String codeCard = card.findPath("id").asText();
+						JsonNode attack = card.path("attacks");
+
+						if (attack.isArray()) {
+							for (JsonNode attacks : attack) {
+								JsonNode type = attacks.path("cost");
+								String nameAttack = attacks.findPath("name").asText();
+								String damageAttack = attacks.findPath("damage").asText();
+								String descriptionAttack = attacks.findPath("text").asText();
+
+								System.out.println("\n");
+								System.out.println("___________________ DEBUG CONTROLLER __________________________");
+								System.out.println("NAMECARD : " + nameCard);
+								System.out.println("NAMEATTACK : " + nameAttack);
+								System.out.println("CODECARD : " + codeCard);
+								System.out.println("DESCRIPTIONATTACK : " + descriptionAttack);
+								System.out.println("___________________ END DEBUG CONTROLLER ______________________");
+								System.out.println("\n");
+								this.cardService.cardHasAttack(nameCard, codeCard, nameAttack, damageAttack,
+										descriptionAttack);
+							}
+						}
+					}
+				}
+			} catch (Exception e) {
+				System.out.println("Erreur de récupération des attaques et des types " + e);
+			}
 		}
 	}
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import fr.pokecard.collection.business.entity.Attack;
 import fr.pokecard.collection.business.entity.Card;
 import fr.pokecard.collection.business.entity.CardSet;
 import fr.pokecard.collection.business.entity.CardSubtype;
@@ -12,6 +13,7 @@ import fr.pokecard.collection.business.entity.CardType;
 import fr.pokecard.collection.business.entity.Pokemon;
 import fr.pokecard.collection.business.entity.Rarity;
 import fr.pokecard.collection.business.entity.Retreat;
+import fr.pokecard.collection.persistence.AttackRepository;
 import fr.pokecard.collection.persistence.CardRepository;
 import fr.pokecard.collection.persistence.CardSetRepository;
 import fr.pokecard.collection.persistence.CardSubtypeRepository;
@@ -43,6 +45,9 @@ public class CardService {
 
 	@Autowired
 	private PokemonRepository pokemonRepository;
+
+	@Autowired
+	private AttackRepository attackRepository;
 
 	@Autowired
 	private RarityService rarityService;
@@ -139,6 +144,25 @@ public class CardService {
 		if (card != null && pokemon != null) {
 			if (!card.getPokemons().contains(pokemon)) {
 				card.getPokemons().add(pokemon);
+				this.cardRepository.save(card);
+			}
+		}
+	}
+
+	public void saveImage(String image) {
+		Card card = this.cardRepository.findOneByImage(image);
+		System.out.println(image);
+	}
+
+	public void cardHasAttack(String name, String code, String nameAttack, String damageAttack,
+			String descriptionAttack) {
+		Card card = this.cardRepository.findOneByNameAndCode(name, code);
+		Attack attack = this.attackRepository.findOneByNameAndDamageAndDescription(nameAttack, damageAttack,
+				descriptionAttack);
+
+		if (card != null && attack != null) {
+			if (!card.getAttacks().contains(attack)) {
+				card.getAttacks().add(attack);
 				this.cardRepository.save(card);
 			}
 		}

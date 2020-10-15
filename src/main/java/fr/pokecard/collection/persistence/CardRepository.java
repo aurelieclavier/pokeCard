@@ -17,4 +17,6 @@ public interface CardRepository extends JpaRepository<Card, Integer> {
 
 	Card findOneByNameAndCode(final String name, final String code);
 
+	Card findOneByImage(final String image);
+
 }
